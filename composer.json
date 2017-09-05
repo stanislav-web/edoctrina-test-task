@@ -1,0 +1,33 @@
+{
+  "name": "stanislav-web/quiz",
+  "description": "Small project for taking online quizes",
+  "type": "project",
+  "license": "GPL-v3.0",
+  "keywords": [
+    "Quiz",
+    "Itera Research",
+    "Itera Research test task",
+    "eDoctrina Quiz"
+  ],
+  "support": {
+    "issues": "https://github.com/stanislav-web/edoctrina-test-task/issues"
+  },
+  "authors": [
+    {
+      "name": "Stanislav WEB",
+      "email": "stanisov@gmail.com",
+      "homepage": "https://github.com/stanislav-web",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "homepage": "https://github.com/stanislav-web/edoctrina-test-task",
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Quiz\\": "src/Quiz"
+    }
+  }
+}
