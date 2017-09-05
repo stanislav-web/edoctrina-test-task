@@ -1,9 +1,6 @@
 <?php
 namespace  Quiz\Modules\Question;
 
-use Quiz\Aware\DependencyContainerInterface;
-use Quiz\Aware\ModuleInterface;
-
 /**
  * Class Module
  * @package Quiz\Module\Question
@@ -11,16 +8,29 @@ use Quiz\Aware\ModuleInterface;
 class Module implements ModuleInterface {
 
     /**
-     * @var DependencyContainerInterface $dic
+     * @var Repository $repository
      */
-    private $dic;
+    private $repository;
 
     /**
-     * Module constructor.
+     * Set module repository
      *
-     * @param DependencyContainerInterface $dic
+     * @param Repository $repository
+     *
+     * @return ModuleInterface
      */
-    public function __construct(DependencyContainerInterface $dic) {
-        $this->dic = $dic;
+    public function setRepository(Repository $repository) : ModuleInterface {
+        $this->repository = $repository;
+
+        return $this;
+    }
+
+    /**
+     * Get module repository
+     *
+     * @return Repository
+     */
+    public function getRepository() : Repository {
+        return $this->repository;
     }
 }

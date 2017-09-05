@@ -29,13 +29,13 @@ final class DependencyContainer implements DependencyContainerInterface {
      * Set module
      *
      * @param string                $moduleName
-     * @param ModuleInterface $moduleInstance
+     * @param mixed                $moduleInstance
      *
      * @throws DependencyContainerException
      *
      * @return DependencyContainerInterface
      */
-    public function register($moduleName, ModuleInterface $moduleInstance) : DependencyContainerInterface{
+    public function register($moduleName, $moduleInstance) : DependencyContainerInterface {
 
         $isExist = $this->registry->offsetExists($moduleName);
         if(true === $isExist) {
@@ -52,9 +52,9 @@ final class DependencyContainer implements DependencyContainerInterface {
      * @param string $moduleName
      *
      * @throws DependencyContainerException
-     * @return ModuleInterface
+     * @return mixed
      */
-    public function get($moduleName) : ModuleInterface {
+    public function get($moduleName) {
         $isExist = $this->registry->offsetExists($moduleName);
 
         if(false === $isExist) {

@@ -13,13 +13,13 @@ interface DependencyContainerInterface {
      * Set module
      *
      * @param string                $moduleName
-     * @param ModuleInterface $moduleInstance
+     * @param mixed                $moduleInstance
      *
      * @throws DependencyContainerException
      *
      * @return DependencyContainerInterface
      */
-    public function register($moduleName, ModuleInterface $moduleInstance) : DependencyContainerInterface;
+    public function register($moduleName, $moduleInstance) : DependencyContainerInterface;
 
     /**
      * Get module
@@ -27,7 +27,7 @@ interface DependencyContainerInterface {
      * @param string $moduleName
      *
      * @throws DependencyContainerException
-     * @return ModuleInterface
+     * @return mixed
      */
-    public function get($moduleName) : ModuleInterface;
+    public function get($moduleName);
 }

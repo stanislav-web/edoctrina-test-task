@@ -34,8 +34,10 @@ interface RouterInterface {
     public function resolve() : RouterInterface;
 
     /**
-     * Dispatch current route
+     * Dispatch controller
+     *
+     * @return void
      */
-    public function dispatch();
+    public function dispatch() : \void;
 
 }

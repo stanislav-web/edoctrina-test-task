@@ -12,9 +12,9 @@ use Quiz\Exceptions\RouterException;
 final class Router implements RouterInterface {
 
     /**
-     * @var DependencyContainerInterface $dic
+     * @var DependencyContainerInterface $di
      */
-    private $dic;
+    private $di;
 
     /**
      * Request params
@@ -43,11 +43,11 @@ final class Router implements RouterInterface {
     /**
      * Router constructor.
      *
-     * @param DependencyContainerInterface $dic
+     * @param DependencyContainerInterface $di
      * @param array                        $requestParams
      */
-    public function __construct(DependencyContainerInterface $dic, array $requestParams) {
-        $this->dic = $dic;
+    public function __construct(DependencyContainerInterface $di, array $requestParams) {
+        $this->di = $di;
         $this->requestParams = $requestParams;
     }
 
@@ -156,10 +156,12 @@ final class Router implements RouterInterface {
     }
 
     /**
-     * Dispatch current route
+     * Dispatch controller
+     *
+     * @return void
      */
-    public function dispatch() : string {
-        $controller = new $this->controller($this->dic);
+    public function dispatch() : \void {
+        $controller = new $this->controller($this->di);
         $controller->{$this->action}();
 
         return null;

@@ -1,6 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 .idea/
-# Bower dependency directory (https://bower.io/)
-bower_components/
 /vendor/
