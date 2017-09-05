@@ -36,8 +36,8 @@ interface RouterInterface {
     /**
      * Dispatch controller
      *
-     * @return void
+     * @return bool
      */
-    public function dispatch() : \void;
+    public function dispatch() : bool;
 
 }

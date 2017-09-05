@@ -158,12 +158,12 @@ final class Router implements RouterInterface {
     /**
      * Dispatch controller
      *
-     * @return void
+     * @return bool
      */
-    public function dispatch() : \void {
+    public function dispatch() : bool {
         $controller = new $this->controller($this->di);
         $controller->{$this->action}();
 
-        return null;
+        return true;
     }
 }

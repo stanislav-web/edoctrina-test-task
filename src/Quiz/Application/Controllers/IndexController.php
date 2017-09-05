@@ -28,6 +28,10 @@ class IndexController extends BaseController {
         parent::__construct($di);
 
         $this->view = $this->viewModule->getRepository();
+        $this->view->setMetaData([
+            'title'       => 'Quiz Dashboard',
+            'description' => 'Quiz Dashboard description',
+        ]);
         $this->view->setLayout('bootstrap');
     }
 

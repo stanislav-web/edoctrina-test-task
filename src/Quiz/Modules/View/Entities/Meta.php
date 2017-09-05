@@ -20,6 +20,6 @@ class Meta extends AbstractEntity {
     /**
      * @var string $charset
      */
-    public $charset;
+    public $charset = 'utf-8';
 
 }

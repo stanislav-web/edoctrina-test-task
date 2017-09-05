@@ -105,6 +105,7 @@ class Repository implements RepositoryInterface {
 
         $this->view->vars = $data;
         $this->addTemplatePath($templatePath);
+        $this->addMetaData();
         $template = $this->renderTemplate($this->view->layout);
         return $template;
     }
@@ -133,5 +134,16 @@ class Repository implements RepositoryInterface {
      */
     private function addTemplatePath($templatePath) {
         $this->view->vars['template'] = $this->renderTemplate($templatePath);
+    }
+
+    /**
+     * Add meta data to template
+     */
+    private function addMetaData() {
+
+        $this->view->vars['title'] = $this->getMetaData()->title;
+        $this->view->vars['charset'] = $this->getMetaData()->charset;
+        $this->view->vars['description'] = $this->getMetaData()->description;
+
     }
 }
