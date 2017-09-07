@@ -29,12 +29,12 @@ class Repository implements RepositoryInterface {
      * Repository constructor.
      *
      * @param \stdClass $config
-     * @param ValueObject $view
+     * @param ValueObject $valueObject
      */
-    public function __construct(\stdClass $config, ValueObject $view) {
+    public function __construct(\stdClass $config, ValueObject $valueObject) {
         $this->config = $config;
-        $this->meta = $view->getMeta();
-        $this->view = $view->getView();
+        $this->meta = $valueObject->getMeta();
+        $this->view = $valueObject->getView();
     }
 
     /**
@@ -94,9 +94,10 @@ class Repository implements RepositoryInterface {
             throw new ViewException("Cannot bind variable called `'.$layoutName.'`");
         }
 
+
         $templatesArray = $this->config->templates[$layoutName];
         $templatePath = vsprintf($templatesArray[$template], [
-            $layoutName, $template, $this->config->extension
+            $layoutName, $this->config->extension
         ]);
 
         if(false === file_exists($templatePath)) {
@@ -133,6 +134,7 @@ class Repository implements RepositoryInterface {
      * @param $templatePath
      */
     private function addTemplatePath($templatePath) {
+
         $this->view->vars['template'] = $this->renderTemplate($templatePath);
     }
 

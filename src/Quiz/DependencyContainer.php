@@ -1,7 +1,6 @@
 <?php
 namespace Quiz;
 
-use Quiz\Aware\ModuleInterface;
 use Quiz\Aware\DependencyContainerInterface;
 use Quiz\Exceptions\DependencyContainerException;
 

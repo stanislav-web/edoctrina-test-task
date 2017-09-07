@@ -3,8 +3,10 @@ namespace Quiz\Application\Controllers;
 
 use Quiz\Application\Aware\BaseController;
 use Quiz\Aware\DependencyContainerInterface;
-use Quiz\Modules\View\Repository;
-use Quiz\Modules\View\RepositoryInterface;
+use Quiz\Modules\Input\Repository as InputRepository;
+use Quiz\Modules\Input\RepositoryInterface as InputRepositoryInterface;
+use Quiz\Modules\View\Repository as ViewRepository;
+use Quiz\Modules\View\RepositoryInterface as ViewRepositoryInterface;
 
 /**
  * Class IndexController
@@ -13,9 +15,14 @@ use Quiz\Modules\View\RepositoryInterface;
 class IndexController extends BaseController {
 
     /**
-     * @var RepositoryInterface|Repository
+     * @var ViewRepositoryInterface|ViewRepository
      */
     private $view;
+
+    /**
+     * @var InputRepositoryInterface|InputRepository
+     */
+    private $input;
 
     /**
      * IndexController constructor.
@@ -28,16 +35,39 @@ class IndexController extends BaseController {
         parent::__construct($di);
 
         $this->view = $this->viewModule->getRepository();
+        $this->view->setLayout('bootstrap');
+    }
+
+    /**
+     * Index action (Dashboard) entry point
+     */
+    public function indexAction() {
         $this->view->setMetaData([
             'title'       => 'Quiz Dashboard',
             'description' => 'Quiz Dashboard description',
         ]);
-        $this->view->setLayout('bootstrap');
+
+        echo $this->view->render('index', [
+           'test' => 'ok'
+        ]);
     }
 
-    public function indexAction() {
-       echo $this->view->render('index', [
-           'test' => 'ok'
-       ]);
+    /**
+     * Create Quiz action
+     * @throws \Quiz\Modules\Input\InputException
+     */
+    public function createAction() {
+
+        $this->input = $this->inputModule->getRepository();
+        //$this->input->get();
+        // $this->input->post()
+
+        $this->view->setMetaData([
+            'title'       => 'Create Quiz'
+        ]);
+
+        echo $this->view->render('create', [
+            'test' => 'ok'
+        ]);
     }
 }

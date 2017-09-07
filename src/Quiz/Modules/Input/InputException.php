@@ -1,13 +1,13 @@
 <?php
-namespace Quiz\Modules\View;
+namespace Quiz\Modules\Input;
 
 /**
- * Class ViewException
- * @package Quiz\Modules\View
+ * Class InputException
+ * @package Quiz\Modules\Input
  */
-class ViewException extends \Exception
+class InputException extends \Exception
 {
-    const CODE = 404;
+    const CODE = 400;
 
     /**
      * ViewException constructor.

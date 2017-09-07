@@ -21,7 +21,7 @@ class ValueObject {
     private $view;
 
     /**
-     * ViewDTO constructor.
+     * ValueObject constructor.
      *
      * @param Meta $meta
      * @param View $view
