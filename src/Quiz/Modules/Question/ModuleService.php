@@ -7,10 +7,10 @@ use Quiz\Modules\Question\DataManager\QuizDataMapper;
 use Quiz\Modules\Question\DataManager\UserDataMapper;
 
 /**
- * Class QuizService
+ * Class ModuleService
  * @package Quiz\Modules\Question
  */
-class QuizService {
+class ModuleService {
 
     /**
      * @var QuizDataMapper $quizDataMapper

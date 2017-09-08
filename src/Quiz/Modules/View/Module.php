@@ -33,8 +33,8 @@ class Module implements ModuleInterface {
 
         if(null === $this->repository) {
 
-            $valueObject = new ValueObject(new Meta(), new View());
-            $this->repository = new Repository($this->getConfig(), $valueObject);
+            $moduleService = new ModuleService(new Meta(), new View());
+            $this->repository = new Repository($this->getConfig(), $moduleService);
         }
 
         return $this->repository;

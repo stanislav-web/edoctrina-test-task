@@ -5,10 +5,10 @@ use Quiz\Modules\View\Entities\Meta;
 use Quiz\Modules\View\Entities\View;
 
 /**
- * Class ValueObject
+ * Class ModuleService
  * @package Quiz\Modules\View
  */
-class ValueObject {
+class ModuleService {
 
     /**
      * @var Meta $meta
@@ -21,7 +21,7 @@ class ValueObject {
     private $view;
 
     /**
-     * ValueObject constructor.
+     * ModuleService constructor.
      *
      * @param Meta $meta
      * @param View $view

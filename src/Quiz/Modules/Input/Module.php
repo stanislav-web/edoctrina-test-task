@@ -38,12 +38,12 @@ class Module implements ModuleInterface {
         }
 
         if(null === $this->repository) {
-            $valueObject = new ValueObject(
+            $moduleService = new ModuleService(
                 new GetVars(),
                 new PostVars()
             );
 
-            $this->repository = new Repository($valueObject);
+            $this->repository = new Repository($moduleService);
         }
 
         return $this->repository;

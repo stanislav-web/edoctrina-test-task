@@ -22,11 +22,11 @@ class Repository implements RepositoryInterface {
     /**
      * Repository constructor.
      *
-     * @param ValueObject $valueObject
+     * @param ModuleService $moduleService
      */
-    public function __construct(ValueObject $valueObject) {
-        $this->getEntity = $valueObject->getVars();
-        $this->postEntity = $valueObject->postVars();
+    public function __construct(ModuleService $moduleService) {
+        $this->getEntity = $moduleService->getVars();
+        $this->postEntity = $moduleService->postVars();
     }
 
     /**

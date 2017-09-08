@@ -51,9 +51,9 @@ class Module implements ModuleInterface {
             $questionDataMapper = new QuestionDataMapper($dbInstance);
             $userDataMapper = new UserDataMapper($dbInstance);
 
-            $questionService = new QuizService( $quizDataMapper , $questionDataMapper, $userDataMapper);
+            $moduleService = new ModuleService( $quizDataMapper , $questionDataMapper, $userDataMapper);
 
-            $this->repository = new Repository($questionService);
+            $this->repository = new Repository($moduleService);
         }
 
         return $this->repository;

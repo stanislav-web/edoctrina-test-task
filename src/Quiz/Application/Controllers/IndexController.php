@@ -51,7 +51,7 @@ class IndexController extends BaseController {
         $question = $this->questionModule->getRepository();
         $input = $this->inputModule->getRepository();
 
-        $questionService = $question->loadQuestionService();
+        $questionModuleService = $question->loadModlueService();
         //var_dump($input->get()); exit;
 
         $this->view->setMetaData([
@@ -60,7 +60,7 @@ class IndexController extends BaseController {
         ]);
 
         echo $this->view->render('index', [
-           'quiz' => $questionService->getAllQuiz()
+           'quiz' => $questionModuleService->getAllQuiz()
         ]);
     }
 }
