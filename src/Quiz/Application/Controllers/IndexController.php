@@ -3,8 +3,6 @@ namespace Quiz\Application\Controllers;
 
 use Quiz\Application\Aware\BaseController;
 use Quiz\Aware\DependencyContainerInterface;
-use Quiz\Modules\Input\Repository as InputRepository;
-use Quiz\Modules\Input\RepositoryInterface as InputRepositoryInterface;
 use Quiz\Modules\View\Repository as ViewRepository;
 use Quiz\Modules\View\RepositoryInterface as ViewRepositoryInterface;
 
@@ -18,11 +16,6 @@ class IndexController extends BaseController {
      * @var ViewRepositoryInterface|ViewRepository
      */
     private $view;
-
-    /**
-     * @var InputRepositoryInterface|InputRepository
-     */
-    private $input;
 
     /**
      * IndexController constructor.
@@ -39,28 +32,15 @@ class IndexController extends BaseController {
     }
 
     /**
-     * Index action (Dashboard) entry point
-     *
-     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
-     * @throws \ReflectionException
-     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
-     * @throws \Quiz\Modules\Input\InputException
+     * (Dashboard) entry point
      */
     public function indexAction() {
-
-        $question = $this->questionModule->getRepository();
-        $input = $this->inputModule->getRepository();
-
-        $questionModuleService = $question->loadModlueService();
-        //var_dump($input->get()); exit;
 
         $this->view->setMetaData([
             'title'       => 'Quiz Dashboard',
             'description' => 'Quiz Dashboard description',
         ]);
 
-        echo $this->view->render('index', [
-           'quiz' => $questionModuleService->getAllQuiz()
-        ]);
+        echo $this->view->render('index');
     }
 }

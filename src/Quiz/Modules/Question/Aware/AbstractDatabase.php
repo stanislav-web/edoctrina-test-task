@@ -47,4 +47,15 @@ abstract class AbstractDatabase {
      */
     abstract public function fetchById($query, $paramId) : array;
 
+    /**
+     * Insert row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws DataManagerException
+     *
+     * @return int
+     */
+    abstract public function insert($query, array $params) : int;
+
 }

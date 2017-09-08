@@ -67,6 +67,18 @@ class ModuleService {
         return $this->quizDataMapper->findById($id);
     }
 
+    /**
+     * Add quiz
+     *
+     * @param array $param
+     * @throws DataManagerException
+     *
+     * @return Entities\Quiz
+     */
+    public function addQuiz(array $param) : Entities\Quiz {
+        return $this->quizDataMapper->addRow($param);
+    }
+
 
 
 }

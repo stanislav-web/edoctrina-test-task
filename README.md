@@ -16,4 +16,8 @@
 * [ADD] src/Modules/Question @estimated 3.5h 
     - Created and configured "Question" module for Application    
     - Created SQL Adapter via factory and setup for module
-                
+
+* [ADD] Create Quiz action @estimated 1h 
+    - Add "Create quiz" action
+    - Customize nav bar
+                              

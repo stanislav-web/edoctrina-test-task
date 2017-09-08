@@ -23,4 +23,18 @@ interface RepositoryInterface {
      */
     public function post($name = null);
 
+    /**
+     * If request is GET
+     *
+     * @return bool
+     */
+    public function isGet() : bool;
+
+    /**
+     * if request is POST
+     *
+     * @return bool
+     */
+    public function isPost() : bool;
+
 }

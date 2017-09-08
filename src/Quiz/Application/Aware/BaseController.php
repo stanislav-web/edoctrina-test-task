@@ -44,4 +44,15 @@ abstract class BaseController {
         $this->questionModule = $di->get('Question');
     }
 
+    /**
+     * Redirect action
+     *
+     * @param array $params
+     *
+     * @return void
+     */
+    public function redirectTo(array $params): void {
+        header('location: ?'. http_build_query($params));
+    }
+
 }

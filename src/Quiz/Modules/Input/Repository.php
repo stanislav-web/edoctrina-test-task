@@ -50,4 +50,22 @@ class Repository implements RepositoryInterface {
         $input = $this->postEntity->setFromArray($_POST);
         return $input->vars[$name] ?? $input->vars;
     }
+
+    /**
+     * If request is GET
+     *
+     * @return bool
+     */
+    public function isGet() : bool {
+        return 'GET' === $_SERVER['REQUEST_METHOD'];
+    }
+
+    /**
+     * if request is POST
+     *
+     * @return bool
+     */
+    public function isPost() : bool {
+        return 'POST' === $_SERVER['REQUEST_METHOD'];
+    }
 }

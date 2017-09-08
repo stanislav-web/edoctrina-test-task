@@ -74,6 +74,30 @@ class QuizDataMapper {
     }
 
     /**
+     * Add row
+     *
+     * @param array $param
+     *
+     * @throws DataManagerException
+     * @return Quiz
+     */
+    public function addRow(array $param): Quiz {
+
+        $query = 'INSERT INTO  ' .self::TABLE. ' (`name`, `count`) VALUES (
+                        :name, 
+                        :count
+                    )';
+        $rowId = $this->db->insert($query, ['name' => $param['name'], 'count' => $param['count']]);
+        $result = $this->findById($rowId);
+
+        if (null === $result) {
+            throw new DataManagerException('Quiz doesn not added');
+        }
+
+        return $result;
+    }
+
+    /**
      * Mapping data from row to object
      *
      * @param array $row

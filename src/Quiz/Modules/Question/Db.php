@@ -49,4 +49,26 @@ class Db extends AbstractDatabase {
             throw new DataManagerException($e);
         }
     }
+
+    /**
+     * Insert row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws DataManagerException
+     *
+     * @return int
+     */
+    public function insert($query, array $params) : int {
+
+        try {
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute($params);
+            return $this->db->lastInsertId();
+
+        } catch (\PDOException $e) {
+            throw new DataManagerException($e);
+        }
+    }
 }
