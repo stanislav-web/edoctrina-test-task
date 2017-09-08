@@ -1,0 +1,55 @@
+<?php if(true === isset($message)): ?>
+<div class="alert alert-<?=$status;?>" role="alert">
+    <?=$message;?>
+</div>
+<?php endif; ?>
+<div class="placeholder">
+    <div class="list-group">
+        <span class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List of quizes (<?=count($quizList);?>)</h5>
+            </div>
+            <p class="mb-1">
+                <?php if(false === empty($quizList)): ?>
+                    <ul class="list-group">
+                        <?php
+                        /** @var \Quiz\Modules\Question\Entities\Quiz $quiz */
+                        ?>
+                        <?php foreach ($quizList as $quiz): ?>
+                            <li class="list-group-item">
+                                <a href="?controller=question&quiz_id=<?=$quiz->id;?>"><?=$quiz->name;?></a> (<?=$quiz->count;?>)
+                                <button onclick="Modal.confirmDialog(event)"
+                                        class="btn btn-default"
+                                        data-title="Delete # <?=$quiz->id;?>"
+                                        data-description="Are you sure to drop this quiz ? All question will be removed by reference too"
+                                        data-href="?controller=quiz&action=delete&id=<?=$quiz->id;?>"
+                                        data-toggle="modal"
+                                        data-target="#confirm-delete">
+                                    </button>
+                            </li>
+                        <?php endforeach;?>
+                    </ul>
+                <?php else: ?>
+                    List empty. Please create at least one quiz.
+                <?php endif;?>
+            </p>
+        </span>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-default"
+                        data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>

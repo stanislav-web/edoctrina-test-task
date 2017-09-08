@@ -3,6 +3,7 @@ namespace Quiz\Application\Controllers;
 
 use Quiz\Application\Aware\BaseController;
 use Quiz\Aware\DependencyContainerInterface;
+use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
 use Quiz\Modules\View\Repository as ViewRepository;
 use Quiz\Modules\View\RepositoryInterface as ViewRepositoryInterface;
 
@@ -32,12 +33,7 @@ class QuizController extends BaseController {
     }
 
     /**
-     * List of quizzes
-     *
-     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
-     * @throws \ReflectionException
-     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
-     * @throws \Quiz\Modules\Input\InputException
+     * List of quiz
      */
     public function listAction() {
 
@@ -48,41 +44,72 @@ class QuizController extends BaseController {
             'title'       => 'List of quizes',
         ]);
 
-        echo $this->view->render('list', [
+        echo $this->view->render('quiz_list', [
             'quizList' => $questionModuleService->getAllQuiz()
         ]);
     }
 
     /**
      * Create quiz
-     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
-     * @throws \ReflectionException
-     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
-     * @throws \Quiz\Modules\Input\InputException
      */
     public function createAction() {
 
         $input = $this->inputModule->getRepository();
         $question = $this->questionModule->getRepository();
         $questionModuleService = $question->loadModlueService();
+        $viewData = [];
 
         if(true === $input->isPost()) {
 
-            $quiz = $questionModuleService->addQuiz($input->post());
-
-            $this->redirectTo([
-                'controller' => 'quiz',
-                'action' => 'view',
-                'id' => $quiz->id
-            ]);
+            try {
+                $quiz = $questionModuleService->addQuiz($input->post());
+                $this->redirectTo([
+                    'controller' => 'question',
+                    'quiz_id' => $quiz->id
+                ]);
+            } catch (DataManagerException $e) {
+                $viewData['status'] = 'danger';
+                $viewData['message'] = $e->getMessage();
+            }
         }
 
         $this->view->setMetaData([
             'title'       => 'Create quiz',
         ]);
 
-        echo $this->view->render('create', [
-            'quizList' => $questionModuleService->getAllQuiz()
-        ]);
+        echo $this->view->render('quiz_create', $viewData);
+    }
+
+    /**
+     * Delete quiz
+     */
+    public function deleteAction() {
+
+        $input = $this->inputModule->getRepository();
+        $question = $this->questionModule->getRepository();
+        $questionModuleService = $question->loadModlueService();
+
+        try {
+            $questionModuleService->deleteQuiz($input->get('id'));
+
+            $this->redirectTo([
+                'controller' => 'quiz',
+                'action' => 'list',
+            ]);
+
+        } catch (DataManagerException $e) {
+
+            $this->view->setMetaData([
+                'title'       => 'List of quizzes',
+            ]);
+
+            echo $this->view->render('quiz_list', [
+                'status' => 'danger',
+                'message' => 'An error occurred while removing the quiz',
+                'quizList' => $questionModuleService->getAllQuiz()
+            ]);
+
+            return;
+        }
     }
 }

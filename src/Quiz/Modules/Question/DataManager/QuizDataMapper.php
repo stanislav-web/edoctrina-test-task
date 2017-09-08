@@ -3,6 +3,7 @@ namespace Quiz\Modules\Question\DataManager;
 
 use Quiz\Modules\Question\Aware\AbstractDatabase;
 use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
+use Quiz\Modules\Question\Db\Exception\StorageException;
 use Quiz\Modules\Question\Entities\Quiz;
 
 /**
@@ -14,7 +15,7 @@ class QuizDataMapper {
     /**
      * @const TABLE
      */
-    const TABLE = 'quiz';
+    const TABLE = 'quizzes';
 
     /**
      * @var AbstractDatabase $db
@@ -62,7 +63,7 @@ class QuizDataMapper {
     {
         $query = 'SELECT `id`, `name`, `count` 
                     FROM ' .self::TABLE. ' 
-                    WHERE id = :id';
+                    WHERE `id` = :id';
 
         $result = $this->db->fetchById($query, $id);
 
@@ -83,18 +84,39 @@ class QuizDataMapper {
      */
     public function addRow(array $param): Quiz {
 
-        $query = 'INSERT INTO  ' .self::TABLE. ' (`name`, `count`) VALUES (
+        try {
+            $query = 'INSERT INTO  ' .self::TABLE. ' (`name`, `count`) VALUES (
                         :name, 
                         :count
                     )';
-        $rowId = $this->db->insert($query, ['name' => $param['name'], 'count' => $param['count']]);
-        $result = $this->findById($rowId);
 
-        if (null === $result) {
+            $rowId = $this->db->insert($query, ['name' => $param['name'], 'count' => $param['count']]);
+            return $this->findById($rowId);
+
+        } catch (StorageException $e) {
             throw new DataManagerException('Quiz doesn not added');
         }
+    }
 
-        return $result;
+    /**
+     * Remove row
+     *
+     * @param int $id
+     *
+     * @throws DataManagerException
+     * @return bool
+     */
+    public function removeRow($id): int {
+
+        try {
+            $query = 'DELETE FROM ' .self::TABLE. '
+                        WHERE `id` = :id';
+
+            return $this->db->delete($query, ['id' => $id]);
+
+        } catch (StorageException $e) {
+            throw new DataManagerException('Quiz #'.$id.' doesn not removed');
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace Quiz\Modules\Question\Aware;
 
-use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
+use Quiz\Modules\Question\Db\Exception\StorageException;
 use Quiz\Modules\Question\Db\Exception\MySQLStorageException;
 
 /**
@@ -30,7 +30,7 @@ abstract class AbstractDatabase {
      * Fetch all rows
      *
      * @param string $query
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return array
      */
@@ -41,7 +41,7 @@ abstract class AbstractDatabase {
      *
      * @param string $query
      * @param int    $paramId
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return array
      */
@@ -52,10 +52,21 @@ abstract class AbstractDatabase {
      *
      * @param string $query
      * @param array $params
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return int
      */
     abstract public function insert($query, array $params) : int;
+
+    /**
+     * Delete row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws StorageException
+     *
+     * @return bool
+     */
+    abstract public function delete($query, array $params) : bool;
 
 }

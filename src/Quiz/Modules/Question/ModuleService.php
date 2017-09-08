@@ -45,7 +45,7 @@ class ModuleService {
     }
 
     /**
-     * Get all quiz
+     * Get all quizzes
      *
      * @throws DataManagerException
      *
@@ -79,6 +79,17 @@ class ModuleService {
         return $this->quizDataMapper->addRow($param);
     }
 
+    /**
+     * Delete quiz
+     *
+     * @param int $id
+     * @throws DataManagerException
+     *
+     * @return bool
+     */
+    public function deleteQuiz(int $id) : bool {
+        return $this->quizDataMapper->removeRow($id);
+    }
 
 
 }

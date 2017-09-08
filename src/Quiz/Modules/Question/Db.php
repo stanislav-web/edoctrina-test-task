@@ -2,7 +2,7 @@
 namespace Quiz\Modules\Question;
 
 use Quiz\Modules\Question\Aware\AbstractDatabase;
-use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
+use Quiz\Modules\Question\Db\Exception\StorageException;
 
 /**
  * Class Db
@@ -14,7 +14,7 @@ class Db extends AbstractDatabase {
      * Fetch all rows
      *
      * @param string $query
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return array
      */
@@ -24,7 +24,7 @@ class Db extends AbstractDatabase {
             $res = $this->db->query($query);
             return $res->fetchAll();
         } catch (\PDOException $e) {
-            throw new DataManagerException($e);
+            throw new StorageException($e);
         }
 
     }
@@ -34,7 +34,7 @@ class Db extends AbstractDatabase {
      *
      * @param string $query
      * @param int    $id
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return array
      */
@@ -46,7 +46,7 @@ class Db extends AbstractDatabase {
             $stmt->execute();
             return $stmt->fetch();
         } catch (\PDOException $e) {
-            throw new DataManagerException($e);
+            throw new StorageException($e);
         }
     }
 
@@ -55,7 +55,7 @@ class Db extends AbstractDatabase {
      *
      * @param string $query
      * @param array $params
-     * @throws DataManagerException
+     * @throws StorageException
      *
      * @return int
      */
@@ -68,7 +68,30 @@ class Db extends AbstractDatabase {
             return $this->db->lastInsertId();
 
         } catch (\PDOException $e) {
-            throw new DataManagerException($e);
+            throw new StorageException($e);
         }
     }
+
+    /**
+     * Delete row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws StorageException
+     *
+     * @return bool
+     */
+    public function delete($query, array $params) : bool {
+
+        try {
+
+            $stmt = $this->db->prepare($query);
+            return $stmt->execute($params);
+
+        } catch (\PDOException $e) {
+            throw new StorageException($e);
+        }
+
+    }
+
 }
