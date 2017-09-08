@@ -4,7 +4,6 @@ namespace Quiz\Modules\Input\Entities;
 /**
  * Class AbstractEntity
  *
- * @property void vars
  * @package Quiz\Modules\View\Entities
  */
 abstract class AbstractEntity {
