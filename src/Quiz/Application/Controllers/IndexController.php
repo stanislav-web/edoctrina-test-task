@@ -40,34 +40,27 @@ class IndexController extends BaseController {
 
     /**
      * Index action (Dashboard) entry point
+     *
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
+     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
+     * @throws \Quiz\Modules\Input\InputException
      */
     public function indexAction() {
+
+        $question = $this->questionModule->getRepository();
+        $input = $this->inputModule->getRepository();
+
+        $questionService = $question->loadQuestionService();
+        //var_dump($input->get()); exit;
+
         $this->view->setMetaData([
             'title'       => 'Quiz Dashboard',
             'description' => 'Quiz Dashboard description',
         ]);
 
         echo $this->view->render('index', [
-           'test' => 'ok'
-        ]);
-    }
-
-    /**
-     * Create Quiz action
-     * @throws \Quiz\Modules\Input\InputException
-     */
-    public function createAction() {
-
-        $this->input = $this->inputModule->getRepository();
-        //$this->input->get();
-        // $this->input->post()
-
-        $this->view->setMetaData([
-            'title'       => 'Create Quiz'
-        ]);
-
-        echo $this->view->render('create', [
-            'test' => 'ok'
+           'quiz' => $questionService->getAllQuiz()
         ]);
     }
 }

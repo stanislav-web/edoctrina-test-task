@@ -10,6 +10,10 @@
 * [ADD] Free template @estimated 0.5h 
     - Found and configured free bootstrap-4 template    
         
-* [ADD] Request input module @estimated 1.5h 
-    - Created and configured "Request" for Application   
+* [ADD] src/Modules/Input @estimated 1.5h 
+    - Created and configured "Input" for Application   
+    
+* [ADD] src/Modules/Question @estimated 3.5h 
+    - Created and configured "Question" module for Application    
+    - Created SQL Adapter via factory and setup for module
                 

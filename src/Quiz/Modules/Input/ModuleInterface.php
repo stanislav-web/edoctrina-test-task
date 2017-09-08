@@ -19,7 +19,7 @@ interface ModuleInterface {
      *
      * @throws InputException
      *
-     * @return Repository
+     * @return RepositoryInterface
      */
-    public function getRepository() : Repository;
+    public function getRepository() : RepositoryInterface;
 }

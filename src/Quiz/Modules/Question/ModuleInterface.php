@@ -8,18 +8,18 @@ namespace  Quiz\Modules\Question;
 interface ModuleInterface {
 
     /**
-     * Set module repository
+     * Get module config
      *
-     * @param Repository $repository
-     *
-     * @return ModuleInterface
+     * @return \stdClass
      */
-    public function setRepository(Repository $repository) : ModuleInterface;
+    public function getConfig() : \stdClass;
 
     /**
-     * Get module repository
+     * Get "lazy" module repository
      *
-     * @return Repository
+     * @throws QuizException
+     *
+     * @return RepositoryInterface
      */
-    public function getRepository() : Repository;
+    public function getRepository() : RepositoryInterface;
 }

@@ -15,7 +15,6 @@ try {
     $dic->register('View', new Quiz\Modules\View\Module( ));
     $dic->register('Input', new Quiz\Modules\Input\Module( ));
     $dic->register('Question', new Quiz\Modules\Question\Module( ));
-    $dic->register('User', new Quiz\Modules\User\Module( ));
 
     // Dispatch router
     $router = new \Quiz\Router($dic, $_REQUEST);

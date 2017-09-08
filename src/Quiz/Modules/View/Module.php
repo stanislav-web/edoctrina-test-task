@@ -27,9 +27,9 @@ class Module implements ModuleInterface {
     /**
      * Get "lazy" module repository
      *
-     * @return Repository
+     * @return RepositoryInterface
      */
-    public function getRepository() : Repository {
+    public function getRepository() : RepositoryInterface {
 
         if(null === $this->repository) {
 

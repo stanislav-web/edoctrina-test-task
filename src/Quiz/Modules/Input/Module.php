@@ -29,16 +29,16 @@ class Module implements ModuleInterface {
      *
      * @throws InputException
      *
-     * @return Repository
+     * @return RepositoryInterface
      */
-    public function getRepository() : Repository {
+    public function getRepository() : RepositoryInterface {
 
         if(false === in_array($_SERVER['REQUEST_METHOD'], $this->getConfig()->allow_methods, true)) {
             throw new InputException($_SERVER['REQUEST_METHOD'] .' method is not allowed');
         }
 
         if(null === $this->repository) {
-                $valueObject = new ValueObject(
+            $valueObject = new ValueObject(
                 new GetVars(),
                 new PostVars()
             );

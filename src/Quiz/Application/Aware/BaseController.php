@@ -3,7 +3,6 @@ namespace Quiz\Application\Aware;
 use Quiz\Aware\DependencyContainerInterface;
 use Quiz\Modules\View\Module as ViewModule;
 use Quiz\Modules\Question\Module as QuestionModule;
-use Quiz\Modules\User\Module as UserModule;
 use Quiz\Modules\Input\Module as InputModule;
 
 /**
@@ -33,11 +32,6 @@ abstract class BaseController {
     protected $questionModule;
 
     /**
-     * @var UserModule $userModule
-     */
-    protected $userModule;
-
-    /**
      * BaseController constructor.
      *
      * @param DependencyContainerInterface $di
@@ -48,7 +42,6 @@ abstract class BaseController {
         $this->inputModule = $di->get('Input');
         $this->viewModule = $di->get('View');
         $this->questionModule = $di->get('Question');
-        $this->userModule = $di->get('User');
     }
 
 }
