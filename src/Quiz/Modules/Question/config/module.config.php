@@ -12,7 +12,7 @@ return [
         'MySQL' => [
             'host'              => 'localhost',
             'username'          => 'root',
-            'password'          => 'root',
+            'password'          => '123',
             'dbname'            => 'quiz',
             'port'              => 3306,
             'charset'           => 'utf8',
