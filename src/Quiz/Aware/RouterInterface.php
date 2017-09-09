@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: web
- * Date: 05.09.17
- * Time: 16:39
- */
-
 namespace Quiz\Aware;
 
 use Quiz\Exceptions\RouterException;

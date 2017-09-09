@@ -38,12 +38,12 @@ class Module implements ModuleInterface {
         }
 
         if(null === $this->repository) {
-            $moduleService = new ModuleService(
+            $quizModuleService = new ModuleService(
                 new GetVars(),
                 new PostVars()
             );
 
-            $this->repository = new Repository($moduleService);
+            $this->repository = new Repository($quizModuleService);
         }
 
         return $this->repository;

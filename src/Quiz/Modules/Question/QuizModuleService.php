@@ -2,15 +2,13 @@
 namespace Quiz\Modules\Question;
 
 use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
-use Quiz\Modules\Question\DataManager\QuestionDataMapper;
 use Quiz\Modules\Question\DataManager\QuizDataMapper;
-use Quiz\Modules\Question\DataManager\UserDataMapper;
 
 /**
- * Class ModuleService
+ * Class QuizModuleService
  * @package Quiz\Modules\Question
  */
-class ModuleService {
+class QuizModuleService {
 
     /**
      * @var QuizDataMapper $quizDataMapper
@@ -18,30 +16,12 @@ class ModuleService {
     private $quizDataMapper;
 
     /**
-     * @var QuestionDataMapper $questionDataMapper
-     */
-//    private $questionDataMapper;
-
-    /**
-     * @var UserDataMapper $userDataMapper
-     */
-//    private $userDataMapper;
-
-    /**
      * Repository constructor.
      *
      * @param QuizDataMapper     $quizDataMapper
-     * @param QuestionDataMapper $questionDataMapper
-     * @param UserDataMapper     $userDataMapper
      */
-    public function __construct(
-        QuizDataMapper $quizDataMapper,
-        QuestionDataMapper $questionDataMapper,
-        UserDataMapper $userDataMapper) {
-
+    public function __construct(QuizDataMapper $quizDataMapper) {
         $this->quizDataMapper = $quizDataMapper;
-        //        $this->questionDataMapper = $questionDataMapper;
-        //        $this->userDataMapper = $userDataMapper;
     }
 
     /**
@@ -51,7 +31,7 @@ class ModuleService {
      *
      * @return Entities\Quiz[]|array
      */
-    public function getAllQuiz() : array {
+    public function getAllQuizzes() : array {
         return $this->quizDataMapper->findAll();
     }
 
@@ -64,7 +44,7 @@ class ModuleService {
      * @return Entities\Quiz
      */
     public function getQuizById($id) : Entities\Quiz {
-        return $this->quizDataMapper->findById($id);
+        return $this->quizDataMapper->findById((int)$id);
     }
 
     /**
@@ -90,6 +70,4 @@ class ModuleService {
     public function deleteQuiz(int $id) : bool {
         return $this->quizDataMapper->removeRow($id);
     }
-
-
 }

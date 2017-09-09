@@ -5,7 +5,7 @@ use Quiz\Modules\View\Entities\Meta;
 use Quiz\Modules\View\Entities\View;
 
 /**
- * Class ModuleService
+ * Class QuizModuleService
  * @package Quiz\Modules\View
  */
 class ModuleService {
@@ -21,7 +21,7 @@ class ModuleService {
     private $view;
 
     /**
-     * ModuleService constructor.
+     * QuizModuleService constructor.
      *
      * @param Meta $meta
      * @param View $view

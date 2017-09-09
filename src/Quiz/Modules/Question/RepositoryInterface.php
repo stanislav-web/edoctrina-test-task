@@ -8,9 +8,16 @@ namespace Quiz\Modules\Question;
 interface RepositoryInterface {
 
     /**
-     * Load `ModuleService`
+     * Load `QuizModuleService`
      *
-     * @return ModuleService
+     * @return QuizModuleService
      */
-    public function loadModlueService() : ModuleService;
+    public function loadQuizModlueService() : QuizModuleService;
+
+    /**
+     * Load `QuestionModuleService`
+     *
+     * @return QuestionModuleService
+     */
+    public function loadQuestionModlueService() : QuestionModuleService;
 }

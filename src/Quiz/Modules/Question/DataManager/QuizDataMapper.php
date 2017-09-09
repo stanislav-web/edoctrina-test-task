@@ -13,9 +13,14 @@ use Quiz\Modules\Question\Entities\Quiz;
 class QuizDataMapper {
 
     /**
-     * @const TABLE
+     * @const QUIZ_TABLE
      */
-    const TABLE = 'quizzes';
+    const QUIZ_TABLE = 'quizzes';
+
+    /**
+     * @const QUESTIONS_TABLE
+     */
+    const QUESTIONS_TABLE = 'questions';
 
     /**
      * @var AbstractDatabase $db
@@ -34,13 +39,15 @@ class QuizDataMapper {
     /**
      * Find all rows
      *
-     * @throws DataManagerException
      * @return array
+     * @throws DataManagerException
      */
-    public function findAll(): array
-    {
-        $query = 'SELECT `id`, `name`, `count` 
-                    FROM ' .self::TABLE;
+    public function findAll(): array {
+
+        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, COUNT(qs.`id`) as `count`
+                    FROM ' .self::QUIZ_TABLE.' qz
+                    LEFT JOIN '.self::QUESTIONS_TABLE.' qs ON (qs.quiz_id = qz.id) 
+                    GROUP BY qz.id';
 
         $result = $this->db->fetchAll($query);
 
@@ -59,13 +66,14 @@ class QuizDataMapper {
      * @throws DataManagerException
      * @return Quiz
      */
-    public function findById(int $id): Quiz
-    {
-        $query = 'SELECT `id`, `name`, `count` 
-                    FROM ' .self::TABLE. ' 
-                    WHERE `id` = :id';
+    public function findById(int $id): Quiz {
 
-        $result = $this->db->fetchById($query, $id);
+        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, COUNT(qs.`id`) as `count`
+                    FROM ' .self::QUIZ_TABLE.' qz
+                    LEFT JOIN '.self::QUESTIONS_TABLE.' qs ON (qs.quiz_id = qz.id) 
+                    WHERE qz.`id` = :id';
+
+        $result = $this->db->fetch($query, [':id' => $id]);
 
         if (null === $result) {
             throw new DataManagerException('Quiz #'.$id.' not found');
@@ -85,16 +93,19 @@ class QuizDataMapper {
     public function addRow(array $param): Quiz {
 
         try {
-            $query = 'INSERT INTO  ' .self::TABLE. ' (`name`, `count`) VALUES (
+            $query = 'INSERT INTO  ' .self::QUIZ_TABLE. ' (`name`,`description`) VALUES (
                         :name, 
-                        :count
+                        :description
                     )';
 
-            $rowId = $this->db->insert($query, ['name' => $param['name'], 'count' => $param['count']]);
+            $rowId = $this->db->insert($query, [
+                    'name' => $param['name'],
+                    'description' => $param['description'],
+            ]);
             return $this->findById($rowId);
 
         } catch (StorageException $e) {
-            throw new DataManagerException('Quiz doesn not added');
+            throw new DataManagerException('Quiz does not added');
         }
     }
 
@@ -106,10 +117,10 @@ class QuizDataMapper {
      * @throws DataManagerException
      * @return bool
      */
-    public function removeRow($id): int {
+    public function removeRow(int $id): bool {
 
         try {
-            $query = 'DELETE FROM ' .self::TABLE. '
+            $query = 'DELETE FROM ' .self::QUIZ_TABLE. '
                         WHERE `id` = :id';
 
             return $this->db->delete($query, ['id' => $id]);
@@ -154,7 +165,6 @@ class QuizDataMapper {
             foreach($rows as $row) {
                 $result[] = $this->mapRow($row);
             }
-
             return $result;
 
         } catch (\InvalidArgumentException $e) {

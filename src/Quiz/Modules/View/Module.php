@@ -33,8 +33,8 @@ class Module implements ModuleInterface {
 
         if(null === $this->repository) {
 
-            $moduleService = new ModuleService(new Meta(), new View());
-            $this->repository = new Repository($this->getConfig(), $moduleService);
+            $quizModuleService = new ModuleService(new Meta(), new View());
+            $this->repository = new Repository($this->getConfig(), $quizModuleService);
         }
 
         return $this->repository;

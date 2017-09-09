@@ -21,6 +21,12 @@ class Quiz extends AbstractEntity {
      */
     public $name;
 
+    /**
+     * Quiz description
+     *
+     * @var string $description
+     */
+    public $description;
 
     /**
      * Quiz counter
@@ -28,5 +34,4 @@ class Quiz extends AbstractEntity {
      * @var string $count
      */
     public $count;
-
 }

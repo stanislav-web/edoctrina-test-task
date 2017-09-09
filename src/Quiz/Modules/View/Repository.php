@@ -29,12 +29,12 @@ class Repository implements RepositoryInterface {
      * Repository constructor.
      *
      * @param \stdClass     $config
-     * @param ModuleService $moduleService
+     * @param ModuleService $quizModuleService
      */
-    public function __construct(\stdClass $config, ModuleService $moduleService) {
+    public function __construct(\stdClass $config, ModuleService $quizModuleService) {
         $this->config = $config;
-        $this->meta = $moduleService->getMeta();
-        $this->view = $moduleService->getView();
+        $this->meta = $quizModuleService->getMeta();
+        $this->view = $quizModuleService->getView();
     }
 
     /**

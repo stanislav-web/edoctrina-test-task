@@ -5,7 +5,7 @@ use Quiz\Modules\Input\Entities\GetVars;
 use Quiz\Modules\Input\Entities\PostVars;
 
 /**
- * Class ModuleService
+ * Class QuizModuleService
  * @package Quiz\Modules\Input
  */
 class ModuleService {
@@ -21,7 +21,7 @@ class ModuleService {
     private $postVars;
 
     /**
-     * ModuleService constructor.
+     * QuizModuleService constructor.
      *
      * @param GetVars  $getVars
      * @param PostVars $postVars

@@ -14,15 +14,20 @@ class Db extends AbstractDatabase {
      * Fetch all rows
      *
      * @param string $query
+     * @param array $params
      * @throws StorageException
      *
      * @return array
      */
-    public function fetchAll($query): array {
+    public function fetchAll($query, array $params = null): array {
 
         try {
-            $res = $this->db->query($query);
-            return $res->fetchAll();
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute($params);
+            $result = $stmt->fetchAll();
+            return $result ? $result : [];
+
         } catch (\PDOException $e) {
             throw new StorageException($e);
         }
@@ -30,21 +35,22 @@ class Db extends AbstractDatabase {
     }
 
     /**
-     * Fetch row(s) by id
+     * Fetch row
      *
      * @param string $query
-     * @param int    $id
+     * @param array    $params
      * @throws StorageException
      *
      * @return array
      */
-    public function fetchById($query, $id) : array {
+    public function fetch($query, array $params) : array {
 
         try {
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch();
+            $stmt->execute($params);
+            $result = $stmt->fetch();
+            return $result ? $result : [];
+
         } catch (\PDOException $e) {
             throw new StorageException($e);
         }

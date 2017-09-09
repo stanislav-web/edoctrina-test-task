@@ -9,18 +9,16 @@
         <input class="form-control"
                id="name"
                name="name"
-               placeholder="Enter quiz name">
+               placeholder="Enter quiz name"
+               required
+        >
     </div>
     <div class="form-group">
-        <label for="count">Quiz Count</label>
-        <input type="number"
-               class="form-control"
-               id="count"
-               name="count"
-               min="1"
-               max="30"
-               placeholder="Enter max quiz count"
-        >
+        <label for="name">Description</label>
+        <textarea class="form-control"
+               id="description"
+               name="description"
+               placeholder="Short description (optional)"></textarea>
     </div>
     <button class="btn btn-primary">Create quiz</button>
 </form>

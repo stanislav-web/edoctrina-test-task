@@ -30,22 +30,23 @@ abstract class AbstractDatabase {
      * Fetch all rows
      *
      * @param string $query
+     * @param array $params
      * @throws StorageException
      *
      * @return array
      */
-    abstract public function fetchAll($query) : array;
+    abstract public function fetchAll($query, array $params = null) : array;
 
     /**
-     * Fetch row(s) by id
+     * Fetch row
      *
      * @param string $query
-     * @param int    $paramId
+     * @param array    $params
      * @throws StorageException
      *
      * @return array
      */
-    abstract public function fetchById($query, $paramId) : array;
+    abstract public function fetch($query, array $params) : array;
 
     /**
      * Insert row query

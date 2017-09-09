@@ -7,10 +7,14 @@
     <title><?=$title;?></title>
     <meta name="description" content="<?=$description;?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/layout.css">
+    <link rel="stylesheet" href="/assets/css/list.css">
+    <link rel="stylesheet" href="/assets/css/callout.css">
+    <link rel="stylesheet" href="/assets/css/table.css">
 </head>
 <body>
 
@@ -35,13 +39,13 @@
                     <a class="nav-link" href="?controller=quiz&action=list">List of the quizzes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Take the quiz</a>
+                    <a class="nav-link" href="#">Summary</a>
                 </li>
             </ul>
         </nav>
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-            <h1><?=$title;?></h1>
+            <h4><?=$title;?></h4>
             <section class="placeholders">
                 <?=$template;?>
             </section>
@@ -56,13 +60,12 @@
     </div>
 </div>
 <!-- Optional JavaScript -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/modal.js"></script>
 <script>
-        Quiz.init();
+    Quiz.init();
 </script>
 <!-- /Optional JavaScript -->
 </body>

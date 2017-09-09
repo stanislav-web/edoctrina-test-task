@@ -1,6 +1,12 @@
 /*
  * Base structure
  */
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+@import url('https://fonts.googleapis.com/css?family=Kumar+One');
+
+a, a:hover, a:focus{outline:none; text-decoration:none;}
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
@@ -67,4 +73,10 @@ h1 {
 .placeholder img {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+}
+
+
+h4 {
+    margin-bottom: 20px;
+    padding-bottom: 9px;
 }

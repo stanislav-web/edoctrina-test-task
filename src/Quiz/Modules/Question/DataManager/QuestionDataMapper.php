@@ -36,21 +36,21 @@ class QuestionDataMapper {
      * @param int $id
      *
      * @throws DataManagerException
-     * @return Question
+     * @return Question[]|array
      */
-    public function findById(int $id): Question
-    {
+    public function findByQuizId(int $quizId): array {
+
         $query = 'SELECT `id`, `quiz_id`, `description`, `status` 
                     FROM ' .self::TABLE. ' 
-                    WHERE id = :id';
+                    WHERE quiz_id = :quiz_id';
 
-        $result = $this->db->fetchById($query, $id);
+        $result = $this->db->fetchAll($query, ['quiz_id' => $quizId]);
 
         if (null === $result) {
-            throw new DataManagerException('Question #'.$id.' not found');
+            throw new DataManagerException('Questions not found');
         }
 
-        return $this->mapRow($result);
+        return $this->mapRows($result);
     }
 
     /**
@@ -67,6 +67,29 @@ class QuestionDataMapper {
             $question = new Question();
             $question->setFromArray($row);
             return $question;
+        } catch (\InvalidArgumentException $e) {
+            throw new DataManagerException($e);
+        }
+    }
+
+    /**
+     * Mapping data from rows to object
+     *
+     * @param array $rows
+     * @throws DataManagerException
+     *
+     * @return Question[]|array
+     */
+    private function mapRows(array $rows): array {
+
+        $result = [];
+
+        try {
+            foreach($rows as $row) {
+                $result[] = $this->mapRow($row);
+            }
+            return $result;
+
         } catch (\InvalidArgumentException $e) {
             throw new DataManagerException($e);
         }

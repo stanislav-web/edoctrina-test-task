@@ -38,14 +38,14 @@ class QuizController extends BaseController {
     public function listAction() {
 
         $question = $this->questionModule->getRepository();
-        $questionModuleService = $question->loadModlueService();
+        $quizModuleService = $question->loadQuizModlueService();
 
         $this->view->setMetaData([
-            'title'       => 'List of quizes',
+            'title'       => 'List of quizzes',
         ]);
 
         echo $this->view->render('quiz_list', [
-            'quizList' => $questionModuleService->getAllQuiz()
+            'quizList' => $quizModuleService->getAllQuizzes()
         ]);
     }
 
@@ -56,15 +56,16 @@ class QuizController extends BaseController {
 
         $input = $this->inputModule->getRepository();
         $question = $this->questionModule->getRepository();
-        $questionModuleService = $question->loadModlueService();
+        $quizModuleService = $question->loadQuizModlueService();
         $viewData = [];
 
         if(true === $input->isPost()) {
 
             try {
-                $quiz = $questionModuleService->addQuiz($input->post());
+                $quiz = $quizModuleService->addQuiz($input->post());
                 $this->redirectTo([
                     'controller' => 'question',
+                    'action' => 'list',
                     'quiz_id' => $quiz->id
                 ]);
             } catch (DataManagerException $e) {
@@ -87,10 +88,10 @@ class QuizController extends BaseController {
 
         $input = $this->inputModule->getRepository();
         $question = $this->questionModule->getRepository();
-        $questionModuleService = $question->loadModlueService();
+        $quizModuleService = $question->loadQuizModlueService();
 
         try {
-            $questionModuleService->deleteQuiz($input->get('id'));
+            $quizModuleService->deleteQuiz($input->get('id'));
 
             $this->redirectTo([
                 'controller' => 'quiz',
@@ -106,7 +107,7 @@ class QuizController extends BaseController {
             echo $this->view->render('quiz_list', [
                 'status' => 'danger',
                 'message' => 'An error occurred while removing the quiz',
-                'quizList' => $questionModuleService->getAllQuiz()
+                'quizList' => $quizModuleService->getAllQuizzes()
             ]);
 
             return;

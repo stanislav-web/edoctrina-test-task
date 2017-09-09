@@ -8,25 +8,44 @@ namespace Quiz\Modules\Question;
 class Repository implements RepositoryInterface {
 
     /**
-     * @var ModuleService $moduleService
+     * @var QuizModuleService $quizModuleService
      */
-    private $moduleService;
+    private $quizModuleService;
+
+    /**
+     * @var QuestionModuleService $questionModuleService
+     */
+    private $questionModuleService;
 
     /**
      * Repository constructor.
      *
-     * @param ModuleService $moduleService
+     * @param QuizModuleService     $quizModuleService
+     * @param QuestionModuleService $questionModuleService
      */
-    public function __construct(ModuleService $moduleService) {
-        $this->moduleService = $moduleService;
+    public function __construct(
+        QuizModuleService $quizModuleService,
+        QuestionModuleService $questionModuleService
+    ) {
+        $this->quizModuleService = $quizModuleService;
+        $this->questionModuleService = $questionModuleService;
     }
 
     /**
-     * Load `ModuleService`
+     * Load `QuizModuleService`
      *
-     * @return ModuleService
+     * @return QuizModuleService
      */
-    public function loadModlueService() : ModuleService {
-        return $this->moduleService;
+    public function loadQuizModlueService() : QuizModuleService {
+        return $this->quizModuleService;
+    }
+
+    /**
+     * Load `QuestionModuleService`
+     *
+     * @return QuestionModuleService
+     */
+    public function loadQuestionModlueService() : QuestionModuleService {
+        return $this->questionModuleService;
     }
 }
