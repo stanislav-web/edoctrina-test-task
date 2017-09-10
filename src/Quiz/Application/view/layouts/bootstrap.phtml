@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/assets/css/list.css">
     <link rel="stylesheet" href="/assets/css/callout.css">
     <link rel="stylesheet" href="/assets/css/table.css">
+    <link rel="stylesheet" href="/assets/css/input.css">
 </head>
 <body>
 
@@ -22,7 +23,7 @@
     <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">Quiz System</a>
+    <a class="navbar-brand" href="#"><em class="fa fa-rocket"> SIMPLE QUIZZY</em></a>
 </nav>
 
 <div class="container-fluid">
@@ -64,8 +65,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/modal.js"></script>
+<script src="/assets/js/form.js"></script>
+<script src="/assets/js/filter.js"></script>
+<script src="/assets/js/accordion.js"></script>
 <script>
-    Quiz.init();
+    jQuery(document).ready(function() {
+        Main.init();
+    });
 </script>
 <!-- /Optional JavaScript -->
 </body>

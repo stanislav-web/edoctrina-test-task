@@ -3,6 +3,7 @@ namespace  Quiz\Modules\Question;
 
 use Quiz\Modules\Question\DataManager\QuestionDataMapper;
 use Quiz\Modules\Question\DataManager\QuizDataMapper;
+use Quiz\Modules\Question\DataManager\VariantDataMapper;
 use Quiz\Modules\Question\Db\Exception\MySQLStorageException;
 
 /**
@@ -48,9 +49,10 @@ class Module implements ModuleInterface {
 
             $quizDataMapper = new QuizDataMapper($dbInstance);
             $questionDataMapper = new QuestionDataMapper($dbInstance);
+            $variantDataMapper = new VariantDataMapper($dbInstance);
 
             $quizModuleService = new QuizModuleService( $quizDataMapper );
-            $questionModuleService = new QuestionModuleService( $questionDataMapper );
+            $questionModuleService = new QuestionModuleService( $questionDataMapper, $variantDataMapper );
 
             $this->repository = new Repository($quizModuleService, $questionModuleService);
         }

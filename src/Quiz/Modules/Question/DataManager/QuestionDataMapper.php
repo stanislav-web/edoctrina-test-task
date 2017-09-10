@@ -2,14 +2,17 @@
 namespace Quiz\Modules\Question\DataManager;
 
 use Quiz\Modules\Question\Aware\AbstractDatabase;
+use Quiz\Modules\Question\Aware\AbstractDataMapper;
 use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
+use Quiz\Modules\Question\Db\Exception\StorageException;
+use Quiz\Modules\Question\Entities\AbstractEntity;
 use Quiz\Modules\Question\Entities\Question;
 
 /**
  * Class QuestionDataMapper
  * @package Quiz\Modules\Question\DataManager
  */
-class QuestionDataMapper {
+class QuestionDataMapper extends AbstractDataMapper {
 
     /**
      * @const TABLE
@@ -17,17 +20,31 @@ class QuestionDataMapper {
     const TABLE = 'questions';
 
     /**
-     * @var AbstractDatabase $db
-     */
-    private $db;
-
-    /**
-     * QuizDataMapper constructor.
+     * Add row
      *
-     * @param AbstractDatabase $db
+     * @param int $quizId
+     * @param string $title
+     *
+     * @throws DataManagerException
+     * @return Question
      */
-    public function __construct(AbstractDatabase $db) {
-        $this->db = $db;
+    public function addRow(int $quizId, $title): Question {
+
+        try {
+            $query = 'INSERT INTO  ' .self::TABLE. ' (`quiz_id`,`title`) VALUES (
+                        :quiz_id, 
+                        :title
+                    )';
+
+            $rowId = $this->db->insert($query, [
+                'quiz_id' => $quizId,
+                'title' => $title,
+            ]);
+            return $this->findById($rowId);
+
+        } catch (StorageException $e) {
+            throw new DataManagerException('Quiz does not added');
+        }
     }
 
     /**
@@ -36,11 +53,34 @@ class QuestionDataMapper {
      * @param int $id
      *
      * @throws DataManagerException
+     * @return Question
+     */
+    public function findById(int $id): Question {
+
+        $query = 'SELECT `id`, `quiz_id`, `title`, `status`
+                    FROM ' .self::TABLE. ' 
+                    WHERE id = :id';
+
+        $result = $this->db->fetch($query, ['id' => $id]);
+
+        if (null === $result) {
+            throw new DataManagerException('Question not found');
+        }
+
+        return $this->mapRow($result);
+    }
+
+    /**
+     * Find row by quiz id
+     *
+     * @param int $quizId
+     *
+     * @throws DataManagerException
      * @return Question[]|array
      */
     public function findByQuizId(int $quizId): array {
 
-        $query = 'SELECT `id`, `quiz_id`, `description`, `status` 
+        $query = 'SELECT `id`, `quiz_id`, `title`, `status`
                     FROM ' .self::TABLE. ' 
                     WHERE quiz_id = :quiz_id';
 
@@ -54,6 +94,27 @@ class QuestionDataMapper {
     }
 
     /**
+     * Remove row
+     *
+     * @param int $id
+     *
+     * @throws DataManagerException
+     * @return bool
+     */
+    public function removeRow(int $id): bool {
+
+        try {
+            $query = 'DELETE FROM ' .self::TABLE. '
+                        WHERE `id` = :id';
+
+            return $this->db->delete($query, ['id' => $id]);
+
+        } catch (StorageException $e) {
+            throw new DataManagerException('Question #'.$id.' doesn not removed');
+        }
+    }
+
+    /**
      * Mapping data from row to object
      *
      * @param array $row
@@ -61,35 +122,12 @@ class QuestionDataMapper {
      *
      * @return Question
      */
-    private function mapRow(array $row): Question {
+    protected function mapRow(array $row) {
 
         try {
             $question = new Question();
             $question->setFromArray($row);
             return $question;
-        } catch (\InvalidArgumentException $e) {
-            throw new DataManagerException($e);
-        }
-    }
-
-    /**
-     * Mapping data from rows to object
-     *
-     * @param array $rows
-     * @throws DataManagerException
-     *
-     * @return Question[]|array
-     */
-    private function mapRows(array $rows): array {
-
-        $result = [];
-
-        try {
-            foreach($rows as $row) {
-                $result[] = $this->mapRow($row);
-            }
-            return $result;
-
         } catch (\InvalidArgumentException $e) {
             throw new DataManagerException($e);
         }

@@ -11,6 +11,11 @@ use Quiz\Modules\Question\Db\Exception\MySQLStorageException;
 class MySQL implements DbAdapterInterface {
 
     /**
+     * Admit MySQL transaction interface
+     */
+    use MySQLTransaction;
+
+    /**
      * @var \stdClass $config
      */
     private $config;

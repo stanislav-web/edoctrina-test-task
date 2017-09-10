@@ -3,12 +3,15 @@ namespace Quiz\Modules\Question;
 
 use Quiz\Modules\Question\Aware\AbstractDatabase;
 use Quiz\Modules\Question\Db\Exception\StorageException;
+use Quiz\Modules\Question\Db\MySQLTransaction;
 
 /**
  * Class Db
  * @package Quiz\Modules\Question
  */
 class Db extends AbstractDatabase {
+
+    use MySQLTransaction;
 
     /**
      * Fetch all rows
@@ -22,7 +25,6 @@ class Db extends AbstractDatabase {
     public function fetchAll($query, array $params = null): array {
 
         try {
-
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
             $result = $stmt->fetchAll();

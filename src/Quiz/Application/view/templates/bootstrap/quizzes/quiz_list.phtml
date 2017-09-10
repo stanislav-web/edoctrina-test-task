@@ -37,10 +37,16 @@
                         <div class="btn-group btn-group-justified" role="group">
                             <div class="btn-group" role="group">
                                 <button id="take"
-                                        class="btn btn-primary btn-success <?=(1 > $quiz->count) ? 'disabled' : '';?>"
+                                        class="btn btn-primary <?=(1 > $quiz->count) ? 'disabled' : '';?>"
                                         data-original-title="Take the quiz!">
                                     Take the quiz!
                                 </button>
+                                <a href="?controller=question&action=list&quiz_id=<?=$quiz->id;?>" id="edit"
+                                        class="btn btn-success"
+                                        data-original-title="Edit">
+                                    <i class="fa fa-pencil-square-o fa-lg"
+                                       aria-hidden="true"></i>
+                                </a>
                             </div>
                             <div class="btn-group" role="group">
                                 <button onclick="Modal.confirmDialog(event)"
@@ -63,28 +69,28 @@
         </div>
         <?php endforeach; ?>
     </div>
+    <!-- /Section list -->
+
+    <!-- Modal dialog -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal dialog -->
 <?php else: ?>
     <div class="alert alert-warning" role="alert">
         List empty. Please create at least one quiz.
     </div>
 <?php endif;?>
-<!-- /Section list -->
-
-<!-- Modal dialog -->
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-default"
-                        data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok">Delete</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /Modal dialog -->

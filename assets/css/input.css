@@ -1,0 +1,24 @@
+#radioBtn .notActive{
+    background-color: transparent;
+}
+#radioBtn .active {
+    background-color: #449d44;
+    color: #fff;
+}
+#radioBtn .active:before{
+    position: absolute;
+    content: "\f00c ";
+    font-family: FontAwesome;
+    left: 13px;
+    top: 8px;
+    font-size: 18px;
+}
+
+.entry a.btn {
+    color: #449d44;
+    background-color: transparent;
+    cursor: pointer;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    padding: 0 20px;
+}

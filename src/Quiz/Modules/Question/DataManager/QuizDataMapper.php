@@ -2,6 +2,7 @@
 namespace Quiz\Modules\Question\DataManager;
 
 use Quiz\Modules\Question\Aware\AbstractDatabase;
+use Quiz\Modules\Question\Aware\AbstractDataMapper;
 use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
 use Quiz\Modules\Question\Db\Exception\StorageException;
 use Quiz\Modules\Question\Entities\Quiz;
@@ -10,7 +11,7 @@ use Quiz\Modules\Question\Entities\Quiz;
  * Class QuizDataMapper
  * @package Quiz\Modules\Question\DataManager
  */
-class QuizDataMapper {
+class QuizDataMapper extends AbstractDataMapper {
 
     /**
      * @const QUIZ_TABLE
@@ -23,20 +24,6 @@ class QuizDataMapper {
     const QUESTIONS_TABLE = 'questions';
 
     /**
-     * @var AbstractDatabase $db
-     */
-    private $db;
-
-    /**
-     * QuizDataMapper constructor.
-     *
-     * @param AbstractDatabase $db
-     */
-    public function __construct(AbstractDatabase $db) {
-        $this->db = $db;
-    }
-
-    /**
      * Find all rows
      *
      * @return array
@@ -44,7 +31,7 @@ class QuizDataMapper {
      */
     public function findAll(): array {
 
-        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, COUNT(qs.`id`) as `count`
+        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, qz.`status`, COUNT(qs.`id`) as `count`
                     FROM ' .self::QUIZ_TABLE.' qz
                     LEFT JOIN '.self::QUESTIONS_TABLE.' qs ON (qs.quiz_id = qz.id) 
                     GROUP BY qz.id';
@@ -68,7 +55,7 @@ class QuizDataMapper {
      */
     public function findById(int $id): Quiz {
 
-        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, COUNT(qs.`id`) as `count`
+        $query = 'SELECT qz.`id`, qz.`name`, qz.`description`, qz.`status`, COUNT(qs.`id`) as `count`
                     FROM ' .self::QUIZ_TABLE.' qz
                     LEFT JOIN '.self::QUESTIONS_TABLE.' qs ON (qs.quiz_id = qz.id) 
                     WHERE qz.`id` = :id';
@@ -85,12 +72,13 @@ class QuizDataMapper {
     /**
      * Add row
      *
-     * @param array $param
+     * @param string $name
+     * @param string $description
      *
      * @throws DataManagerException
      * @return Quiz
      */
-    public function addRow(array $param): Quiz {
+    public function addRow($name, $description): Quiz {
 
         try {
             $query = 'INSERT INTO  ' .self::QUIZ_TABLE. ' (`name`,`description`) VALUES (
@@ -99,8 +87,8 @@ class QuizDataMapper {
                     )';
 
             $rowId = $this->db->insert($query, [
-                    'name' => $param['name'],
-                    'description' => $param['description'],
+                    'name' => $name,
+                    'description' => $description,
             ]);
             return $this->findById($rowId);
 
@@ -138,35 +126,12 @@ class QuizDataMapper {
      *
      * @return Quiz
      */
-    private function mapRow(array $row): Quiz {
+    protected function mapRow(array $row) {
 
         try {
             $quiz = new Quiz();
             $quiz->setFromArray($row);
             return $quiz;
-        } catch (\InvalidArgumentException $e) {
-            throw new DataManagerException($e);
-        }
-    }
-
-    /**
-     * Mapping data from rows to object
-     *
-     * @param array $rows
-     * @throws DataManagerException
-     *
-     * @return Quiz[]|array
-     */
-    private function mapRows(array $rows): array {
-
-        $result = [];
-
-        try {
-            foreach($rows as $row) {
-                $result[] = $this->mapRow($row);
-            }
-            return $result;
-
         } catch (\InvalidArgumentException $e) {
             throw new DataManagerException($e);
         }

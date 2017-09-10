@@ -2,36 +2,36 @@
 namespace Quiz\Modules\Question\Entities;
 
 /**
- * Class Question
+ * Class Varaiant
  * @package Quiz\Modules\Question\Entities
  */
-class Question extends AbstractEntity {
+class Variant extends AbstractEntity {
 
     /**
-     * Question id
+     * Variant id
      *
      * @var int $id
      */
     public $id;
 
     /**
-     * Quiz id
+     * Question id
      *
-     * @var int $quiz_id
+     * @var int $question_id
      */
-    public $quiz_id;
+    public $question_id;
 
     /**
-     * Question title
+     * Variant title
      *
      * @var string $title
      */
     public $title;
 
     /**
-     * Question status
+     * Variant right flag
      *
-     * @var string $status
+     * @var string $right
      */
-    public $status;
+    public $right;
 }

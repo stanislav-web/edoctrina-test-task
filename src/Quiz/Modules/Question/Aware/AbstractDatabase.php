@@ -8,7 +8,7 @@ use Quiz\Modules\Question\Db\Exception\MySQLStorageException;
  * Class AbstractDatabase
  * @package Quiz\Modules\Question\Aware
  */
-abstract class AbstractDatabase {
+abstract class AbstractDatabase implements TransactInterface {
 
     /**
      * @var DbAdapterInterface $db
@@ -23,7 +23,10 @@ abstract class AbstractDatabase {
      * @throws MySQLStorageException
      */
     public function __construct(DbAdapterInterface $db) {
-        $this->db = $db->connect();
+
+        if(null === $this->db) {
+            $this->db = $db->connect();
+        }
     }
 
     /**

@@ -23,7 +23,12 @@ class PostVars extends AbstractEntity {
     public function setFromArray(array $data): AbstractEntity {
 
         foreach ($data as $property => $value) {
-            $value = filter_input(INPUT_POST, $property, FILTER_SANITIZE_SPECIAL_CHARS);
+
+            if(true === is_array($value)) {
+                $value = filter_var_array($value, FILTER_SANITIZE_SPECIAL_CHARS);
+            } else {
+                $value = filter_input(INPUT_POST, $property, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
             $this->vars[$property] = $value;
         }
         return $this;

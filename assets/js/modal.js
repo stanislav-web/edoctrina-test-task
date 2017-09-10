@@ -1,3 +1,7 @@
+/**
+ * Modal class
+ * @type {{confirmDialog}}
+ */
 var Modal = (function () {
 
     /**

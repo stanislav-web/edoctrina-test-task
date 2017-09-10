@@ -43,8 +43,8 @@ class QuizModuleService {
      *
      * @return Entities\Quiz
      */
-    public function getQuizById($id) : Entities\Quiz {
-        return $this->quizDataMapper->findById((int)$id);
+    public function getQuizById(int $id) : Entities\Quiz {
+        return $this->quizDataMapper->findById($id);
     }
 
     /**
@@ -56,7 +56,11 @@ class QuizModuleService {
      * @return Entities\Quiz
      */
     public function addQuiz(array $param) : Entities\Quiz {
-        return $this->quizDataMapper->addRow($param);
+
+        return $this->quizDataMapper->addRow(
+            $param['name'],
+            $param['description']
+        );
     }
 
     /**

@@ -49,29 +49,31 @@ class QuestionController extends BaseController {
         echo $this->view->render('questions_list', [
             'quiz' => $quizModuleService->getQuizById($quizId),
             'config' => $this->questionModule->getConfig(),
-            'questionsList' => $questionModuleService->getAllQuestions($quizId)
+            'questionsList' =>  $questionModuleService->getAllQuestions($quizId)
         ]);
     }
 
     /**
-     * Create quiz
+     * Create question
      */
     public function createAction() {
 
         $input = $this->inputModule->getRepository();
         $question = $this->questionModule->getRepository();
-        $questionModuleService = $question->loadModlueService();
+        $questionModuleService = $question->loadQuestionModlueService();
         $viewData = [];
 
         if(true === $input->isPost()) {
 
             try {
-                $quiz = $questionModuleService->addQuiz($input->post());
+                $questionModuleService->addQuestion($input->post());
+
                 $this->redirectTo([
                     'controller' => 'question',
-                    'quiz_id' => $quiz->id
+                    'action' => 'list',
+                    'quiz_id' => $input->post('quiz_id')
                 ]);
-            } catch (DataManagerException $e) {
+            } catch (\Exception $e) {
                 $viewData['status'] = 'danger';
                 $viewData['message'] = $e->getMessage();
             }
@@ -85,20 +87,21 @@ class QuestionController extends BaseController {
     }
 
     /**
-     * Delete quiz
+     * Delete question
      */
     public function deleteAction() {
 
         $input = $this->inputModule->getRepository();
         $question = $this->questionModule->getRepository();
-        $questionModuleService = $question->loadModlueService();
+        $questionModuleService = $question->loadQuestionModlueService();
 
         try {
-            $questionModuleService->deleteQuiz($input->get('id'));
+            $questionModuleService->deleteQuestion($input->get('id'));
 
             $this->redirectTo([
-                'controller' => 'quiz',
+                'controller' => 'question',
                 'action' => 'list',
+                'quiz_id' => $input->get('quiz_id'),
             ]);
 
         } catch (DataManagerException $e) {
@@ -110,10 +113,11 @@ class QuestionController extends BaseController {
             echo $this->view->render('quiz_list', [
                 'status' => 'danger',
                 'message' => 'An error occurred while removing the quiz',
-                'quizList' => $questionModuleService->getAllQuiz()
+                'quizList' => $quizModuleService->getAllQuizzes()
             ]);
 
             return;
         }
     }
+
 }

@@ -1,4 +1,8 @@
-var Quiz = (function () {
+/**
+ * Main class
+ * @type {{init}}
+ */
+var Main = (function () {
 
     /**
      * Highlight current page
