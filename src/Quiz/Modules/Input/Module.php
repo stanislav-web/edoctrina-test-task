@@ -1,8 +1,10 @@
 <?php
 namespace  Quiz\Modules\Input;
 
-use Quiz\Modules\Input\Entities\GetVars;
-use Quiz\Modules\Input\Entities\PostVars;
+use Quiz\Modules\Input\Entities\ {
+    GetVars,
+    PostVars
+};
 
 /**
  * Class Module

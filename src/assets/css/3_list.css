@@ -21,7 +21,7 @@
 .card-header a i{
     float:left;
     padding:5px 0;
-    margin:0 25px 0 0px;
+    margin:0 25px 0 0;
     color:#195C9D;
 }
 .card-header i{
@@ -41,12 +41,12 @@
 }
 
 .card-header span{
-    margin:0 0 0px;
+    margin:0 0 0;
     font-size:15px;
     font-weight:bold;
     color: dimgray;
 }
-.card-block {
+.fetch {
     -moz-box-flex: 1;
     flex: 1 1 auto;
     color:#232323;
@@ -92,4 +92,18 @@
     font-size: 30px;
     line-height: 2.00;
     border-radius: 70px;
+}
+
+.quiz-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+input.variant-field {
+    border: none;
+    background: transparent !important;
+}
+
+div.top-buffer {
+    margin-top: 20px;
 }

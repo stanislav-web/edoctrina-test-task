@@ -1,8 +1,9 @@
 <?php
 namespace Quiz\Modules\Question\DTO;
 
-use Quiz\Modules\Question\Entities\Question;
-use Quiz\Modules\Question\Entities\Variant;
+use Quiz\Modules\Question\Entities\{
+    Question, Variant
+};
 
 /**
  * Class QuestionsTransferObject
@@ -59,12 +60,14 @@ class QuestionsDataTransferObject {
     /**
      * @return Variant
      */
-    public function getRightVariant() : Variant{
+    public function getRightVariant() : Variant {
 
         foreach ($this->questionsVariants as $variant) {
             if(0 < $variant->right) {
                 return $variant;
             }
         }
+
+        return null;
     }
 }

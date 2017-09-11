@@ -11,14 +11,23 @@ use Quiz\Modules\Question\DataManager\QuizDataMapper;
 class QuizModuleService {
 
     /**
+     * @cost STATUS_PENDING
+     * @cost STATUS_PROGRESS
+     * @cost STATUS_DONE
+     */
+    const STATUS_PENDING    = 'pending';
+    const STATUS_PROGRESS   = 'progress';
+    const STATUS_DONE       = 'done';
+
+    /**
      * @var QuizDataMapper $quizDataMapper
      */
     private $quizDataMapper;
 
     /**
-     * Repository constructor.
+     * QuizModuleService constructor.
      *
-     * @param QuizDataMapper     $quizDataMapper
+     * @param QuizDataMapper $quizDataMapper
      */
     public function __construct(QuizDataMapper $quizDataMapper) {
         $this->quizDataMapper = $quizDataMapper;
@@ -30,6 +39,7 @@ class QuizModuleService {
      * @throws DataManagerException
      *
      * @return Entities\Quiz[]|array
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
      */
     public function getAllQuizzes() : array {
         return $this->quizDataMapper->findAll();
@@ -39,39 +49,91 @@ class QuizModuleService {
      * Get quiz by id
      *
      * @param int $id
-     * @throws DataManagerException
      *
      * @return Entities\Quiz
+     * @throws QuizException
      */
     public function getQuizById(int $id) : Entities\Quiz {
-        return $this->quizDataMapper->findById($id);
+
+        try {
+            return $this->quizDataMapper->findById($id);
+        } catch (\Throwable $e) {
+            throw new QuizException('Access denied');
+        }
     }
 
     /**
      * Add quiz
      *
      * @param array $param
-     * @throws DataManagerException
      *
      * @return Entities\Quiz
+     * @throws QuizException
      */
     public function addQuiz(array $param) : Entities\Quiz {
 
-        return $this->quizDataMapper->addRow(
-            $param['name'],
-            $param['description']
-        );
+        try {
+
+            return $this->quizDataMapper->addRow(
+                $param['name'],
+                $param['description']
+            );
+        } catch (DataManagerException $e) {
+            throw new QuizException($e->getMessage());
+        }
+        catch (\Throwable $e) {
+            throw new QuizException('Access denied');
+        }
+    }
+
+    /**
+     * Set quizz in progress
+     *
+     * @param int $id
+     *
+     * @return bool
+     * @throws QuizException
+     */
+    public function startProgress(int $id) : bool {
+
+        try {
+            return $this->quizDataMapper->updateStatusRow($id, self::STATUS_PROGRESS);
+        } catch (\Throwable $e) {
+            throw new QuizException('Undefined error');
+        }
+    }
+
+    /**
+     * Set quiz in progress
+     *
+     * @param int $id
+     *
+     * @return bool
+     * @throws QuizException
+     */
+    public function doneProgress(int $id) : bool {
+
+        try {
+            return $this->quizDataMapper->updateStatusRow($id, self::STATUS_DONE);
+        } catch (\Throwable $e) {
+            throw new QuizException('Undefined error');
+        }
     }
 
     /**
      * Delete quiz
      *
      * @param int $id
-     * @throws DataManagerException
      *
      * @return bool
+     * @throws QuizException
      */
     public function deleteQuiz(int $id) : bool {
-        return $this->quizDataMapper->removeRow($id);
+
+        try {
+            return $this->quizDataMapper->removeRow($id);
+        } catch (\Throwable $e) {
+            throw new QuizException('Access denied');
+        }
     }
 }

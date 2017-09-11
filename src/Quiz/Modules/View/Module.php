@@ -1,8 +1,9 @@
 <?php
 namespace  Quiz\Modules\View;
 
-use Quiz\Modules\View\Entities\View;
-use Quiz\Modules\View\Entities\Meta;
+use Quiz\Modules\View\Entities\{
+    View, Meta
+};
 
 /**
  * Class Module

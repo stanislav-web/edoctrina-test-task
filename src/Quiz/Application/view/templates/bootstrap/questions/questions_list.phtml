@@ -1,3 +1,6 @@
+<?php
+use \Quiz\Modules\Question\QuestionModuleService;
+?>
 <?php if(true === isset($message)): ?>
     <!-- Alert message -->
     <div class="alert alert-<?=$status;?>" role="alert">
@@ -8,13 +11,11 @@
 <?php
 /** @var \Quiz\Modules\Question\Entities\Quiz $quiz */
 ?>
-<?php if(true === isset($quiz->id)): ?>
+<?php if(null !== $quiz->id): ?>
     <!-- Quiz title -->
     <div class="row">
         <div class="col">
             <strong><?=$quiz->name;?> (<?=$quiz->count;?> / <?=$config->quiz['quiz_limit'];?>)</strong>
-        </div>
-        <div class="w-100">
             <?=$quiz->description;?>
         </div>
     </div>
@@ -22,109 +23,110 @@
 
     <!-- Toolbar -->
     <div class="btn-group btn-group-sm question-toolbar" role="group" aria-label="Questions toolbar">
-        <div class="col-xs-2">
-            <div class="btn-group pull-right" data-toggle="buttons-radio">
-                <button type="button"
-                        onclick="Filter.completed()"
-                        class="btn btn-success">Completed</button>
-                <button type="button"
-                        onclick="Filter.pending()"
-                        class="btn btn-warning">Pending</button>
-            </div>
-        </div>
-        <div class="col-xs-2">
-            <div class="btn-group pull-right" data-toggle="buttons-radio">
+        <?php if(false === empty($questionsList)): ?>
+        <div class="btn-group pull-right" data-toggle="buttons-radio">
                 <button id="collapse-init" class="btn btn-primary">
                     Expand all
                 </button>
-            </div>
         </div>
-        <div class="col-xs-4">
-            <form class="form-search">
-                <div class="input-append">
-                    <input id="tableSearch" onkeyup="Filter.search()" placeholder="Search for questions" class="col-xs-2">
-                    <button type="submit" class="btn">Search</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-xs-2">
-            <div class="btn-group btn-group-sm" role="group" aria-label="Questions toolbar">
+        <?php endif;?>
+        <?php if(QuestionModuleService::STATUS_DONE !== $quiz->status): ?>
+        <div class="btn-group" role="group" aria-label="Questions toolbar">
                 <button type="button"
                         onclick="Modal.confirmDialog(event)"
                         class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#add-quest"
-                        data-original-title="Add question">Add question</button>
-            </div>
+                        data-original-title="Add question">Add question
+                </button>
         </div>
+        <?php endif;?>
     </div>
     <!-- /Toolbar -->
 
     <?php if(false === empty($questionsList)): ?>
+        <!-- Search -->
+        <form class="form-search">
+            <input id="tableSearch" onkeyup="Filter.search()" placeholder="Search for questions" class="col-xs-2">
+            <button class="btn btn-xs">Search</button>
+        </form>
+        <!-- /Search -->
         <!-- Section list -->
-            <div id="accordion" role="tablist" class="panel-group" aria-multiselectable="true">
-                <table id="searchTable">
-                    <?php
-                    /** @var \Quiz\Modules\Question\DTO\QuestionsDataTransferObject $questionData */
-                    ?>
-                    <?php $i = 1; foreach ($questionsList as $questionData): ?>
-                        <tr>
-                            <td>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="heading-<?=$questionData->getQuestion()->id;?>">
-                                        <div class="mb-0">
-                                            <a data-toggle="collapse"
-                                               data-parent="#accordion"
-                                               href="#collapse-<?=$questionData->getQuestion()->id;?>"
-                                               aria-expanded="true"
-                                               aria-controls="collapse-<?=$questionData->getQuestion()->id;?>"
-                                               class="collapsed">
-                                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                                                <span><b>Q:</b> <?=$questionData->getQuestion()->title;?></span>
-                                            </a>
-                                            <div class="btn-group" role="group">
-                                                <button onclick="Modal.confirmDialog(event)"
-                                                        id="delete"
-                                                        class="btn btn-warning"
-                                                        data-toggle="modal"
-                                                        data-target="#confirm-delete"
-                                                        data-title="Delete # <?=$questionData->getQuestion()->id;?>"
-                                                        data-description="Are you sure to drop this question ? All linked variants will be removed by reference too"
-                                                        data-href="?controller=question&action=delete&quiz_id=<?=$quiz->id;?>&id=<?=$questionData->getQuestion()->id;?>"
-                                                        data-original-title="Delete">
-                                                    <i class="fa fa-trash-o fa-lg"
-                                                       aria-hidden="true"></i>
+        <div id="accordion" role="tablist" class="panel-group">
+            <table id="searchTable">
+                <?php
+                /** @var \Quiz\Modules\Question\DTO\QuestionsDataTransferObject $questionData */
+                ?>
+                <?php $i = 1;
+                /** @noinspection ForeachSourceInspection */
+                foreach ($questionsList as $questionData): ?>
+                    <tr>
+                        <td>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="heading-<?=$questionData->getQuestion()->id;?>">
+                                    <div class="mb-0">
+                                        <a data-toggle="collapse"
+                                           data-parent="#accordion"
+                                           href="#collapse-<?=$questionData->getQuestion()->id;?>"
+                                           aria-controls="collapse-<?=$questionData->getQuestion()->id;?>"
+                                           class="collapsed">
+                                            <i class="fa fa-file-text-o"></i>
+                                            <span><b>Q:</b> <?=$questionData->getQuestion()->title;?></span>
+                                        </a>
+                                        <div class="btn-group" role="group">
+                                            <?php if(QuestionModuleService::STATUS_DONE === $questionData->getQuestion()->status):?>
+                                            <button class="btn btn-sm btn-success" disabled>
+                                                <b><?=QuestionModuleService::STATUS_DONE?></b>
+                                            </button>
+                                            <?php elseif(QuestionModuleService::STATUS_PROGRESS === $questionData->getQuestion()->status): ?>
+                                                <button class="btn btn-sm btn-primary" disabled>
+                                                    <b><?=QuestionModuleService::STATUS_PROGRESS?></b>
                                                 </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="collapse-<?=$questionData->getQuestion()->id;?>"
-                                         role="tabpanel"
-                                         class="collapse"
-                                         aria-labelledby="heading-<?=$questionData->getQuestion()->id;?>"
-                                         aria-expanded="true" style="">
-                                        <div class="card-block long">
-                                            <ol>
-                                                <?php foreach ($questionData->getQuestionVariants() as $questionVariant): ?>
-                                                    <li>
-                                                        <?=$questionVariant->id;?>
-                                                        <?=$questionVariant->title;?>
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ol>
-                                            <p><b>Correct answer: <?=$questionData->getRightVariant()->title;?></b></p>
+                                            <?php else: ?>
+                                                <button class="btn btn-sm btn-primary" disabled>
+                                                    <b><?=QuestionModuleService::STATUS_PENDING?></b>
+                                                </button>
+                                            <?php endif;?>
+                                            <button onclick="Modal.confirmDialog(event)"
+                                                    id="delete"
+                                                    class="btn btn-warning"
+                                                    data-toggle="modal"
+                                                    data-target="#confirm-delete"
+                                                    data-title="Delete # <?=$questionData->getQuestion()->id;?>"
+                                                    data-description="Are you sure to drop this question ? All linked variants will be removed by reference too"
+                                                    data-href="?controller=question&action=delete&quiz_id=<?=$quiz->id;?>&id=<?=$questionData->getQuestion()->id;?>"
+                                                    data-original-title="Delete">
+                                                <i class="fa fa-trash-o fa-lg"
+                                                ></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
+                                <div id="collapse-<?=$questionData->getQuestion()->id;?>"
+                                     role="tabpanel"
+                                     class="collapse"
+                                     aria-labelledby="heading-<?=$questionData->getQuestion()->id;?>"
+                                     style="">
+                                    <div class="fetch long">
+                                        <ol>
+                                            <?php foreach ($questionData->getQuestionVariants() as $questionVariant): ?>
+                                                <li>
+                                                    <?=$questionVariant->title;?>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ol>
+                                   </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     <?php $i++; endforeach; ?>
-                </table>
-            </div>
+            </table>
+        </div>
         <!-- /Section list -->
 
         <!-- Modal dialog -->
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -143,12 +145,12 @@
         <!-- /Modal dialog -->
     <?php else: ?>
         <div class="alert alert-warning" role="alert">
-            List empty. Please create at least one quiz.
+            List empty. Please create at least one question.
         </div>
     <?php endif;?>
 
     <!-- Modal dialog -->
-    <div class="modal fade" id="add-quest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-quest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -186,7 +188,6 @@
                                             </button>
                                         </span>
                                     </div>
-
                                     <div class="entry input-group col-xs-3">
                                         <!-- Radio -->
                                         <a class="btn btn-success btn-sm notActive" onclick="Form.radio(event,this);" data-toggle="fun" data-title="1">
@@ -203,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit"
+                                    <button id="send"
                                             class="btn btn-primary">OK</button>
                                     <button type="button"
                                             class="btn btn-danger"
@@ -222,210 +223,3 @@
         Perhaps you have a wrong section or there are no questions yet
     </div>
 <?php endif;?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Toolbar -->
-<!--<section class="content">-->
-<!--    <h1>Table Filter</h1>-->
-<!--    <div class="col-md-8 col-md-offset-2">-->
-<!--        <div class="panel panel-default">-->
-<!--            <div class="panel-body">-->
-<!--                <div class="pull-right">-->
-<!--                    <div class="btn-group">-->
-<!--                        <button type="button" class="btn btn-success btn-filter" data-target="pagado">Pagado</button>-->
-<!--                        <button type="button" class="btn btn-warning btn-filter" data-target="pendiente">Pendiente</button>-->
-<!--                        <button type="button" class="btn btn-danger btn-filter" data-target="cancelado">Cancelado</button>-->
-<!--                        <button type="button" class="btn btn-default btn-filter" data-target="all">Todos</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="table-container">-->
-<!--                    <table class="table table-filter">-->
-<!--                        <tbody>-->
-<!--                        <tr data-status="pagado">-->
-<!--                            <td>-->
-<!--                                <div class="ckbox">-->
-<!--                                    <input type="checkbox" id="checkbox1">-->
-<!--                                    <label for="checkbox1"></label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a href="javascript:;" class="star">-->
-<!--                                    <i class="glyphicon glyphicon-star"></i>-->
-<!--                                </a>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="media">-->
-<!--                                    <a href="#" class="pull-left">-->
-<!--                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">-->
-<!--                                    </a>-->
-<!--                                    <div class="media-body">-->
-<!--                                        <span class="media-meta pull-right">Febrero 13, 2016</span>-->
-<!--                                        <h4 class="title">-->
-<!--                                            Lorem Impsum-->
-<!--                                            <span class="pull-right pagado">(Pagado)</span>-->
-<!--                                        </h4>-->
-<!--                                        <p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr data-status="pendiente">-->
-<!--                            <td>-->
-<!--                                <div class="ckbox">-->
-<!--                                    <input type="checkbox" id="checkbox3">-->
-<!--                                    <label for="checkbox3"></label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a href="javascript:;" class="star">-->
-<!--                                    <i class="glyphicon glyphicon-star"></i>-->
-<!--                                </a>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="media">-->
-<!--                                    <a href="#" class="pull-left">-->
-<!--                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">-->
-<!--                                    </a>-->
-<!--                                    <div class="media-body">-->
-<!--                                        <span class="media-meta pull-right">Febrero 13, 2016</span>-->
-<!--                                        <h4 class="title">-->
-<!--                                            Lorem Impsum-->
-<!--                                            <span class="pull-right pendiente">(Pendiente)</span>-->
-<!--                                        </h4>-->
-<!--                                        <p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr data-status="cancelado">-->
-<!--                            <td>-->
-<!--                                <div class="ckbox">-->
-<!--                                    <input type="checkbox" id="checkbox2">-->
-<!--                                    <label for="checkbox2"></label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a href="javascript:;" class="star">-->
-<!--                                    <i class="glyphicon glyphicon-star"></i>-->
-<!--                                </a>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="media">-->
-<!--                                    <a href="#" class="pull-left">-->
-<!--                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">-->
-<!--                                    </a>-->
-<!--                                    <div class="media-body">-->
-<!--                                        <span class="media-meta pull-right">Febrero 13, 2016</span>-->
-<!--                                        <h4 class="title">-->
-<!--                                            Lorem Impsum-->
-<!--                                            <span class="pull-right cancelado">(Cancelado)</span>-->
-<!--                                        </h4>-->
-<!--                                        <p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr data-status="pagado" class="selected">-->
-<!--                            <td>-->
-<!--                                <div class="ckbox">-->
-<!--                                    <input type="checkbox" id="checkbox4" checked>-->
-<!--                                    <label for="checkbox4"></label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a href="javascript:;" class="star star-checked">-->
-<!--                                    <i class="glyphicon glyphicon-star"></i>-->
-<!--                                </a>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="media">-->
-<!--                                    <a href="#" class="pull-left">-->
-<!--                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">-->
-<!--                                    </a>-->
-<!--                                    <div class="media-body">-->
-<!--                                        <span class="media-meta pull-right">Febrero 13, 2016</span>-->
-<!--                                        <h4 class="title">-->
-<!--                                            Lorem Impsum-->
-<!--                                            <span class="pull-right pagado">(Pagado)</span>-->
-<!--                                        </h4>-->
-<!--                                        <p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr data-status="pendiente">-->
-<!--                            <td>-->
-<!--                                <div class="ckbox">-->
-<!--                                    <input type="checkbox" id="checkbox5">-->
-<!--                                    <label for="checkbox5"></label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a href="javascript:;" class="star">-->
-<!--                                    <i class="glyphicon glyphicon-star"></i>-->
-<!--                                </a>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="media">-->
-<!--                                    <a href="#" class="pull-left">-->
-<!--                                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">-->
-<!--                                    </a>-->
-<!--                                    <div class="media-body">-->
-<!--                                        <span class="media-meta pull-right">Febrero 13, 2016</span>-->
-<!--                                        <h4 class="title">-->
-<!--                                            Lorem Impsum-->
-<!--                                            <span class="pull-right pendiente">(Pendiente)</span>-->
-<!--                                        </h4>-->
-<!--                                        <p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!-- Toolbar -->
-
-<!--        <script>-->
-<!--            jQuery(function() {-->
-<!--                $('.star').on('click', function () {-->
-<!--                    $(this).toggleClass('star-checked');-->
-<!--                });-->
-<!---->
-<!--                $('.ckbox label').on('click', function () {-->
-<!--                    $(this).parents('tr').toggleClass('selected');-->
-<!--                });-->
-<!---->
-<!--                $('.btn-filter').on('click', function () {-->
-<!--                    var $target = $(this).data('target');-->
-<!--                    if ($target != 'all') {-->
-<!--                        $('.table tr').css('display', 'none');-->
-<!--                        $('.table tr[data-status="' + $target + '"]').hide().fadeIn('slow');-->
-<!--                    } else {-->
-<!--                        $('.table tr').css('display', 'none').hide().fadeIn('slow');-->
-<!--                    }-->
-<!--                });-->
-<!---->
-<!--                $('.questions').simpleQuiz();-->
-<!--            });-->
-<!---->
-<!--        </script>-->

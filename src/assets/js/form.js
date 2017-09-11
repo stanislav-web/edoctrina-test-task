@@ -47,6 +47,7 @@ var Form = (function () {
         event.preventDefault();
         var index = jQuery(obj).attr('data-title');
         var toggle = jQuery(obj).attr('data-toggle');
+        jQuery('input#send').removeAttr('disabled');
 
         jQuery('#' + toggle).prop('value', index);
         jQuery('a[data-toggle="' + toggle + '"]').not('[data-title="' + index + '"]').removeClass('active').addClass('notActive');

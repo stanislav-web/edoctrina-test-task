@@ -63,6 +63,17 @@ abstract class AbstractDatabase implements TransactInterface {
     abstract public function insert($query, array $params) : int;
 
     /**
+     * Update row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws StorageException
+     *
+     * @return bool
+     */
+    abstract public function update($query, array $params) : bool;
+
+    /**
      * Delete row query
      *
      * @param string $query

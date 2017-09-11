@@ -7,11 +7,12 @@
 <?php endif; ?>
 <?php if(false === empty($quizList)): ?>
     <!-- Section list -->
-    <div id="accordion" role="tablist" aria-multiselectable="true">
+    <div id="accordion" role="tablist">
         <?php
         /** @var \Quiz\Modules\Question\Entities\Quiz $quiz */
         ?>
-        <?php foreach ($quizList as $quiz): ?>
+        <?php /** @noinspection ForeachSourceInspection */
+        foreach ($quizList as $quiz): ?>
         <div class="card">
             <div class="card-header" role="tab" id="heading-<?=$quiz->id;?>">
                 <div class="mb-0">
@@ -21,7 +22,7 @@
                        aria-expanded="false"
                        aria-controls="collapse-<?=$quiz->id;?>"
                        class="collapsed">
-                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        <i class="fa fa-file-text-o"></i>
                         <span><?=$quiz->name;?></span>
                     </a><b class="badge badge-default badge-pill"><?=$quiz->count;?></b>
                 </div>
@@ -31,21 +32,33 @@
                  role="tabpanel"
                  aria-labelledby="heading-<?=$quiz->id;?>"
                  aria-expanded="false" style="">
-                <div class="card-block long">
+                <div class="fetch long">
                     <?=$quiz->description;?>
                     <div class="btn-toolbar mb-3" role="toolbar">
+                        <?php
+                        $disabled = (1 > $quiz->count
+                            || (
+                                $quiz->status === \Quiz\Modules\Question\QuizModuleService::STATUS_PROGRESS
+                                || $quiz->status === \Quiz\Modules\Question\QuizModuleService::STATUS_DONE));
+                        ?>
+                        <button onclick="<?= $disabled ? 'return false;' : 'Modal.confirmDialog(event)';?>"
+                                id="take"
+                                class="btn btn-primary btn-success take <?= $disabled ? 'disabled' : '';?>"
+                                data-toggle="modal"
+                                data-target="<?= $disabled ? '' : '#confirm-delete';?>"
+                                data-title="Start # <?=$quiz->id;?>"
+                                data-description="Do you ready to take this quiz?"
+                                data-href="?controller=passing&quiz_id=<?=$quiz->id;?>"
+                                data-original-title="Take the quiz!">
+                            Take the quiz!
+                        </button>
                         <div class="btn-group btn-group-justified" role="group">
                             <div class="btn-group" role="group">
-                                <button id="take"
-                                        class="btn btn-primary <?=(1 > $quiz->count) ? 'disabled' : '';?>"
-                                        data-original-title="Take the quiz!">
-                                    Take the quiz!
-                                </button>
                                 <a href="?controller=question&action=list&quiz_id=<?=$quiz->id;?>" id="edit"
                                         class="btn btn-success"
                                         data-original-title="Edit">
                                     <i class="fa fa-pencil-square-o fa-lg"
-                                       aria-hidden="true"></i>
+                                    ></i>
                                 </a>
                             </div>
                             <div class="btn-group" role="group">
@@ -59,7 +72,7 @@
                                         data-href="?controller=quiz&action=delete&id=<?=$quiz->id;?>"
                                         data-original-title="Delete">
                                     <i class="fa fa-trash-o fa-lg"
-                                       aria-hidden="true"></i>
+                                    ></i>
                                 </button>
                             </div>
                         </div>
@@ -72,7 +85,7 @@
     <!-- /Section list -->
 
     <!-- Modal dialog -->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +96,7 @@
                     <button type="button"
                             class="btn btn-default"
                             data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-ok">Delete</a>
+                    <a class="btn btn-danger btn-ok">Ok</a>
                 </div>
             </div>
         </div>

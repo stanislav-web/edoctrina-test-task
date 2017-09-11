@@ -1,10 +1,12 @@
 <?php
 namespace  Quiz\Modules\Question;
 
-use Quiz\Modules\Question\DataManager\QuestionDataMapper;
-use Quiz\Modules\Question\DataManager\QuizDataMapper;
-use Quiz\Modules\Question\DataManager\VariantDataMapper;
-use Quiz\Modules\Question\Db\Exception\MySQLStorageException;
+use Quiz\Modules\Question\DataManager\ {
+    QuestionDataMapper,
+    QuizDataMapper,
+    ScoreDataMapper,
+    VariantDataMapper
+};
 
 /**
  * Class Module
@@ -33,9 +35,10 @@ class Module implements ModuleInterface {
 
     /**
      * Get "lazy" module repository
-     * @throws MySQLStorageException
-     * @throws \ReflectionException
+     *
      * @return RepositoryInterface
+     * @throws \ReflectionException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
      */
     public function getRepository() : RepositoryInterface {
 
@@ -50,11 +53,25 @@ class Module implements ModuleInterface {
             $quizDataMapper = new QuizDataMapper($dbInstance);
             $questionDataMapper = new QuestionDataMapper($dbInstance);
             $variantDataMapper = new VariantDataMapper($dbInstance);
+            $scoreDataMapper = new ScoreDataMapper($dbInstance);
 
             $quizModuleService = new QuizModuleService( $quizDataMapper );
-            $questionModuleService = new QuestionModuleService( $questionDataMapper, $variantDataMapper );
 
-            $this->repository = new Repository($quizModuleService, $questionModuleService);
+            $scoreModuleService = new ScoreModuleService(
+                $scoreDataMapper,
+                $questionDataMapper,
+                $variantDataMapper
+            );
+            $questionModuleService = new QuestionModuleService(
+                $questionDataMapper,
+                $variantDataMapper
+            );
+
+            $this->repository = new Repository(
+                $quizModuleService,
+                $questionModuleService,
+                $scoreModuleService
+                );
         }
 
         return $this->repository;

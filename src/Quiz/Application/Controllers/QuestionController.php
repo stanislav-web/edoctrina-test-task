@@ -3,6 +3,7 @@ namespace Quiz\Application\Controllers;
 
 use Quiz\Application\Aware\BaseController;
 use Quiz\Aware\DependencyContainerInterface;
+use Quiz\Modules\Question\QuizException;
 use Quiz\Modules\View\Repository as ViewRepository;
 use Quiz\Modules\View\RepositoryInterface as ViewRepositoryInterface;
 
@@ -33,6 +34,10 @@ class QuestionController extends BaseController {
 
     /**
      * List of questions
+     * @throws \Quiz\Modules\Input\InputException
+     * @throws \Quiz\Modules\Question\QuizException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function listAction() {
 
@@ -55,6 +60,9 @@ class QuestionController extends BaseController {
 
     /**
      * Create question
+     * @throws \Quiz\Modules\Input\InputException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function createAction() {
 
@@ -73,7 +81,7 @@ class QuestionController extends BaseController {
                     'action' => 'list',
                     'quiz_id' => $input->post('quiz_id')
                 ]);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $viewData['status'] = 'danger';
                 $viewData['message'] = $e->getMessage();
             }
@@ -88,6 +96,11 @@ class QuestionController extends BaseController {
 
     /**
      * Delete question
+     * @throws \Quiz\Modules\Input\InputException
+     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function deleteAction() {
 
@@ -104,7 +117,7 @@ class QuestionController extends BaseController {
                 'quiz_id' => $input->get('quiz_id'),
             ]);
 
-        } catch (DataManagerException $e) {
+        } catch (QuizException $e) {
 
             $this->view->setMetaData([
                 'title'       => 'List of quizzes',
@@ -113,7 +126,7 @@ class QuestionController extends BaseController {
             echo $this->view->render('quiz_list', [
                 'status' => 'danger',
                 'message' => 'An error occurred while removing the quiz',
-                'quizList' => $quizModuleService->getAllQuizzes()
+                'quizList' => $question->loadQuizModlueService()->getAllQuizzes()
             ]);
 
             return;

@@ -14,9 +14,9 @@ class DependencyContainerException extends \RuntimeException
      *
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
+     * @param \Throwable|null $previous
      */
-    public function __construct($message, $code = self::CODE, \Exception $previous = null) {
+    public function __construct($message, $code = self::CODE, \Throwable $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 

@@ -1,0 +1,39 @@
+.circle-red {
+    text-align: center;
+    vertical-align: middle;
+    background-color: #d9534f;
+    border: 1px solid black;
+    border-radius: 200px;
+    color: #fff;
+    height: 20px;
+    font-weight: 700;
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+}
+.circle-green {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid black;
+    background-color: #5cb85c;
+    border-radius: 200px;
+    color: #fff;
+    height: 20px;
+    font-weight: 700;
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+}
+.circle-yellow {
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ffdc00;
+    border-radius: 200px;
+    border: 1px solid black;
+    color: #fff;
+    height: 20px;
+    font-weight: 700;
+    width: 20px;
+    display: inline-block;
+    margin-right: 10px;
+}

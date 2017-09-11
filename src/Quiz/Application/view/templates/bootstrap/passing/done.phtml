@@ -1,0 +1,103 @@
+<?php
+use \Quiz\Modules\Question\{
+    ScoreModuleService , QuizModuleService
+};
+
+/** @var \Quiz\Modules\Question\Entities\Quiz $quiz */
+/** @var \Quiz\Modules\Question\DTO\QuestionsDataTransferObject[] $questionsList */
+/** @var \Quiz\Modules\Question\Entities\Score $scoreQuest */
+/** @var \Quiz\Modules\Question\Entities\ScoreResult $scoreResult */
+?>
+<?php if (null !== $quiz->id && false === empty($questionsList)): ?>
+    <!-- Quiz title -->
+    <div class="btn-toolbar mb-3 quiz-title" role="toolbar">
+        <strong><?= $quiz->name; ?></strong>
+        <button class="btn btn-success btn-sm" disabled><?= $quiz->status; ?></button>
+    </div>
+    <?php if(QuizModuleService::STATUS_DONE === $quiz->status): ?>
+        <?php
+        $percentage = number_format($scoreResult->ok / ($scoreResult->total / 100));
+        ?>
+        <!-- /Quiz title -->
+        <div>
+            <div class="mb-0">
+                <div class="progress">
+                    <div class="progress-bar"
+                         role="progressbar"
+                         style="width: <?=$percentage;?>%;"
+                         aria-valuenow="<?=$percentage;?>"
+                         aria-valuemin="0"
+                         aria-valuemax="100"><b>Result: <?=$percentage;?>%</b></div>
+                </div>
+            </div>
+        </div>
+        <!-- Section list -->
+        <div id="accordion" role="tablist" class="panel-group">
+            <table id="searchTable">
+                <?php
+                /**
+                 * @var \Quiz\Modules\Question\Entities\Variant  $questionData
+                 */
+                ?>
+                <?php $i = 1; foreach ($questionsList as $questionData): ?>
+                    <?php
+                    $scoreQuest = $score[$questionData->getQuestion()->id];
+                    ?>
+                    <tr>
+                        <td>
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <div class="mb-0">
+                                        <a data-toggle="collapse"
+                                           data-parent="#accordion"
+                                           class="collapsed">
+                                            <i class="fa fa-file-text-o"></i>
+                                            <span><b>Q:</b> <?=$questionData->getQuestion()->title;?></span>
+                                            <button
+                                                    class="btn <?=(ScoreModuleService::STATUS_OK === $scoreQuest->status) ?
+                                                        'btn-success' : 'btn-danger';?> btn-sm" disabled="">
+                                                <?=$scoreQuest->status;?>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="collapse-<?=$questionData->getQuestion()->id;?>"
+                                     role="tabpanel"
+                                     aria-labelledby="heading-<?=$questionData->getQuestion()->id;?>"
+                                     style="">
+                                    <div class="fetch long">
+                                        <ol>
+                                            <?php foreach ($questionData->getQuestionVariants() as $questionVariant): ?>
+                                                <li>
+                                                    <?php  if($questionVariant->id === $scoreQuest->answer): ?>
+                                                        <span class="circle-yellow"></span>
+                                                    <?php else:?>
+                                                    <span
+                                                            class="<?=($questionVariant->right > 0) ? 'circle-green'
+                                                                : 'circle-red';?>"></span>
+                                                    <?php endif;?>
+                                                    <?=$questionVariant->title;?>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ol>
+                                        <p><b>Correct answer:</b> <?=$questionData->getRightVariant()->title;?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php $i++; endforeach; ?>
+            </table>
+        </div>
+        <!-- /Section list -->
+    <?php else: ?>
+        <div class="alert alert-warning" role="alert">
+            This Quiz wasn't finished!
+        </div>
+    <?php endif;?>
+
+<?php else: ?>
+    <div class="alert alert-warning" role="alert">
+        You can't continue because the questions are not exist
+    </div>
+<?php endif; ?>

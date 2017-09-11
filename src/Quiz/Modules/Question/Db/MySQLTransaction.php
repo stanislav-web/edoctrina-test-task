@@ -22,6 +22,7 @@ trait MySQLTransaction  {
     public function begin() : bool {
 
         if (!$this->transactionCounter++) {
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->db->beginTransaction();
         }
 
@@ -36,6 +37,7 @@ trait MySQLTransaction  {
     public function commit() : bool {
 
         if (!--$this->transactionCounter) {
+            /** @noinspection PhpUndefinedMethodInspection */
             return $this->db->commit();
         }
         return $this->transactionCounter >= 0;
@@ -50,6 +52,7 @@ trait MySQLTransaction  {
         if (--$this->transactionCounter) {
             return true;
         }
+        /** @noinspection PhpUndefinedMethodInspection */
         return $this->db->rollBack();
     }
 }

@@ -18,17 +18,25 @@ class Repository implements RepositoryInterface {
     private $questionModuleService;
 
     /**
+     * @var ScoreModuleService $scoreModuleService
+     */
+    private $scoreModuleService;
+
+    /**
      * Repository constructor.
      *
      * @param QuizModuleService     $quizModuleService
      * @param QuestionModuleService $questionModuleService
+     * @param ScoreModuleService    $scoreModuleService
      */
     public function __construct(
         QuizModuleService $quizModuleService,
-        QuestionModuleService $questionModuleService
+        QuestionModuleService $questionModuleService,
+        ScoreModuleService $scoreModuleService
     ) {
         $this->quizModuleService = $quizModuleService;
         $this->questionModuleService = $questionModuleService;
+        $this->scoreModuleService = $scoreModuleService;
     }
 
     /**
@@ -47,5 +55,14 @@ class Repository implements RepositoryInterface {
      */
     public function loadQuestionModlueService() : QuestionModuleService {
         return $this->questionModuleService;
+    }
+
+    /**
+     * Load `ScoreModuleService`
+     *
+     * @return ScoreModuleService
+     */
+    public function loadScoreModlueService() : ScoreModuleService {
+        return $this->scoreModuleService;
     }
 }

@@ -7,15 +7,14 @@
     <title><?=$title;?></title>
     <meta name="description" content="<?=$description;?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="/bower_components/jquery/dist/jquery.slim.min.js"></script>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/css/layout.css">
-    <link rel="stylesheet" href="/assets/css/list.css">
-    <link rel="stylesheet" href="/assets/css/callout.css">
-    <link rel="stylesheet" href="/assets/css/table.css">
-    <link rel="stylesheet" href="/assets/css/input.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/build/dist/main.min.css">
+    <!-- /Styles -->
+
 </head>
 <body>
 
@@ -23,7 +22,7 @@
     <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><em class="fa fa-rocket"> SIMPLE QUIZZY</em></a>
+    <a class="navbar-brand" href="#"><em class="fa fa-rocket"> SIMPLE QUIZZ</em></a>
 </nav>
 
 <div class="container-fluid">
@@ -38,9 +37,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?controller=quiz&action=list">List of the quizzes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Summary</a>
                 </li>
             </ul>
         </nav>
@@ -61,13 +57,10 @@
     </div>
 </div>
 <!-- Optional JavaScript -->
-<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/modal.js"></script>
-<script src="/assets/js/form.js"></script>
-<script src="/assets/js/filter.js"></script>
-<script src="/assets/js/accordion.js"></script>
+<script src="/bower_components/tether/dist/js/tether.min.js"></script>
+<!--<script src="/bower_components/popper.js/dist/umd/popper.min.js"></script>-->
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/build/dist/main.min.js"></script>
 <script>
     jQuery(document).ready(function() {
         Main.init();

@@ -17,12 +17,41 @@ class VariantDataMapper extends AbstractDataMapper {
     const TABLE = 'variants';
 
     /**
+     * Find row by question and variant ids
+     *
+     * @param int $question_id
+     * @param int $variant_id
+     *
+     * @throws DataManagerException
+     * @return Variant
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
+     */
+    public function findByQuestionVariantId(int $question_id, $variant_id): Variant {
+
+        $query = 'SELECT `id`, `question_id`, `title`, `right`
+                    FROM ' .self::TABLE.'
+                    WHERE `question_id` = :question_id AND `id` = :id';
+
+        $result = $this->db->fetch($query, [
+            ':id' => $variant_id,
+            ':question_id' => $question_id,
+        ]);
+
+        if (null === $result) {
+            throw new DataManagerException('Variant #'.$variant_id.' not found');
+        }
+
+        return $this->mapRow($result);
+    }
+
+    /**
      * Find row by question id
      *
      * @param int $questionId
      *
      * @throws DataManagerException
      * @return Variant[]|array
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
      */
     public function findByQuestionId(int $questionId): array {
 
@@ -62,13 +91,13 @@ class VariantDataMapper extends AbstractDataMapper {
             $rowId = $this->db->insert($query, [
                 'id' => $id,
                 'question_id' => $question_id,
-                'title' => $title,
+                'title' => trim($title),
                 'right' => $right
             ]);
 
             return $rowId;
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new DataManagerException('Variant does not added');
         }
     }
@@ -81,7 +110,8 @@ class VariantDataMapper extends AbstractDataMapper {
      *
      * @return Variant
      */
-    protected function mapRow(array $row) {
+    protected function mapRow(array $row): Variant
+    {
 
         try {
             $variant = new Variant();

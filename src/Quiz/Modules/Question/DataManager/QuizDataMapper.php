@@ -1,7 +1,6 @@
 <?php
 namespace Quiz\Modules\Question\DataManager;
 
-use Quiz\Modules\Question\Aware\AbstractDatabase;
 use Quiz\Modules\Question\Aware\AbstractDataMapper;
 use Quiz\Modules\Question\DataManager\Exception\DataManagerException;
 use Quiz\Modules\Question\Db\Exception\StorageException;
@@ -27,6 +26,7 @@ class QuizDataMapper extends AbstractDataMapper {
      * Find all rows
      *
      * @return array
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
      * @throws DataManagerException
      */
     public function findAll(): array {
@@ -52,6 +52,7 @@ class QuizDataMapper extends AbstractDataMapper {
      *
      * @throws DataManagerException
      * @return Quiz
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
      */
     public function findById(int $id): Quiz {
 
@@ -87,9 +88,10 @@ class QuizDataMapper extends AbstractDataMapper {
                     )';
 
             $rowId = $this->db->insert($query, [
-                    'name' => $name,
-                    'description' => $description,
+                    'name' => trim($name),
+                    'description' => trim($description),
             ]);
+
             return $this->findById($rowId);
 
         } catch (StorageException $e) {
@@ -119,6 +121,29 @@ class QuizDataMapper extends AbstractDataMapper {
     }
 
     /**
+     * Update row
+     *
+     * @param int $id
+     * @param string $status
+     *
+     * @throws DataManagerException
+     * @return bool
+     */
+    public function updateStatusRow(int $id, $status): bool {
+
+        try {
+            $query = 'UPDATE ' .self::QUIZ_TABLE. '
+                        SET `status` = :status
+                         WHERE `id` = :id';
+
+            return $this->db->update($query, ['id' => $id, 'status' => $status]);
+
+        } catch (StorageException $e) {
+            throw new DataManagerException('Quiz #'.$id.' status doesn not updated');
+        }
+    }
+
+    /**
      * Mapping data from row to object
      *
      * @param array $row
@@ -126,7 +151,7 @@ class QuizDataMapper extends AbstractDataMapper {
      *
      * @return Quiz
      */
-    protected function mapRow(array $row) {
+    protected function mapRow(array $row) : Quiz {
 
         try {
             $quiz = new Quiz();

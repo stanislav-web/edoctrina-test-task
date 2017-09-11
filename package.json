@@ -1,0 +1,38 @@
+{
+  "name": "quiz",
+  "version": "0.0.1",
+  "description": "Simple Quiz",
+  "author": "Stanislav WEB <stanisov@gmail.com>",
+  "readme": "README.md",
+  "homepage": "https://github.com/stanislav-web/edoctrina-test-task",
+  "license": "GPL-v3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stanislav-web/edoctrina-test-task/issues"
+  },
+  "engines": {
+    "node": ">=0.10.25",
+    "npm": ">=1.4.21"
+  },
+  "keywords": [
+    "Quiz",
+    "Itera Research",
+    "Itera Research test task",
+    "eDoctrina Quiz"
+  ],
+  "devDependencies": {
+    "bower": "latest",
+    "gulp": "latest",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-concat": "^2.2.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-uglifyjs": "^0.6.1",
+    "rimraf": "^2.6.1"
+  },
+  "scripts": {
+    "preinstall": "npm run clean -s & rm -rf build/*",
+    "postinstall": "composer install && bower instal",
+    "start": "gulp"
+  }
+}

@@ -22,6 +22,9 @@ try {
         ->resolve()
         ->dispatch();
 
-} catch (\Exception $e) {
+} catch (\Throwable $e) {
+    echo $e;
+}
+catch (\Error $e) {
     echo $e;
 }

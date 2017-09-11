@@ -34,6 +34,10 @@ class QuizController extends BaseController {
 
     /**
      * List of quiz
+     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function listAction() {
 
@@ -51,6 +55,10 @@ class QuizController extends BaseController {
 
     /**
      * Create quiz
+     * @throws \Quiz\Modules\Question\QuizException
+     * @throws \Quiz\Modules\Input\InputException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function createAction() {
 
@@ -83,6 +91,12 @@ class QuizController extends BaseController {
 
     /**
      * Delete quiz
+     * @throws \Quiz\Modules\Question\DataManager\Exception\DataManagerException
+     * @throws \Quiz\Modules\Question\QuizException
+     * @throws \Quiz\Modules\Input\InputException
+     * @throws \Quiz\Modules\Question\Db\Exception\StorageException
+     * @throws \Quiz\Modules\Question\Db\Exception\MySQLStorageException
+     * @throws \ReflectionException
      */
     public function deleteAction() {
 
@@ -90,8 +104,10 @@ class QuizController extends BaseController {
         $question = $this->questionModule->getRepository();
         $quizModuleService = $question->loadQuizModlueService();
 
+        var_dump( $quizModuleService->deleteQuiz($input->get('id')));
+        exit;
         try {
-            $quizModuleService->deleteQuiz($input->get('id'));
+
 
             $this->redirectTo([
                 'controller' => 'quiz',

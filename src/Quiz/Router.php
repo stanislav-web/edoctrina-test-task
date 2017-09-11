@@ -158,11 +158,16 @@ final class Router implements RouterInterface {
     /**
      * Dispatch controller
      *
+     * @throws RouterException
      * @return bool
      */
     public function dispatch() : bool {
-        $controller = new $this->controller($this->di);
-        $controller->{$this->action}();
+        try {
+            $controller = new $this->controller($this->di);
+            $controller->{$this->action}();
+        } catch (\Throwable $e) {
+            throw new RouterException('Route does not found');
+        }
 
         return true;
     }

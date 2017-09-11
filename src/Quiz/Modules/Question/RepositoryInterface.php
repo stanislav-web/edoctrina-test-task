@@ -20,4 +20,12 @@ interface RepositoryInterface {
      * @return QuestionModuleService
      */
     public function loadQuestionModlueService() : QuestionModuleService;
+
+
+    /**
+     * Load `ScoreModuleService`
+     *
+     * @return ScoreModuleService
+     */
+    public function loadScoreModlueService() : ScoreModuleService;
 }

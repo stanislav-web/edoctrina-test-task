@@ -1,0 +1,35 @@
+{
+  "name": "Simple Quiz",
+  "description": "Simple Quiz",
+  "main": "",
+  "authors": [
+    "Stanislav WEB <stanisov@gmail.com>"
+  ],
+  "license": "GPL-v3.0",
+  "keywords": [
+    "Quiz",
+    "Itera",
+    "Research",
+    "Itera",
+    "Research",
+    "test",
+    "task",
+    "eDoctrina",
+    "Quiz"
+  ],
+  "homepage": "https://github.com/stanislav-web/edoctrina-test-task",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.2.1",
+    "tether": "~1.4.0",
+    "bootstrap": "4.0.0-alpha.6",
+    "font-awesome" : "~4.7.0"
+  },
+  "analytics": false
+}

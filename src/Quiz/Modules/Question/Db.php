@@ -28,7 +28,7 @@ class Db extends AbstractDatabase {
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
             $result = $stmt->fetchAll();
-            return $result ? $result : [];
+            return $result ?: [];
 
         } catch (\PDOException $e) {
             throw new StorageException($e);
@@ -51,7 +51,7 @@ class Db extends AbstractDatabase {
             $stmt = $this->db->prepare($query);
             $stmt->execute($params);
             $result = $stmt->fetch();
-            return $result ? $result : [];
+            return $result ?: [];
 
         } catch (\PDOException $e) {
             throw new StorageException($e);
@@ -81,6 +81,27 @@ class Db extends AbstractDatabase {
     }
 
     /**
+     * Update row query
+     *
+     * @param string $query
+     * @param array $params
+     * @throws StorageException
+     *
+     * @return bool
+     */
+    public function update($query, array $params) : bool {
+
+        try {
+
+            $stmt = $this->db->prepare($query);
+            return $stmt->execute($params);
+
+        } catch (\PDOException $e) {
+            throw new StorageException($e);
+        }
+    }
+
+    /**
      * Delete row query
      *
      * @param string $query
@@ -99,7 +120,6 @@ class Db extends AbstractDatabase {
         } catch (\PDOException $e) {
             throw new StorageException($e);
         }
-
     }
 
 }

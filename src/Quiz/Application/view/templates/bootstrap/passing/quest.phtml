@@ -1,0 +1,57 @@
+<?php if (true === isset($message)): ?>
+    <!-- Alert message -->
+    <div class="alert alert-<?= $status; ?>" role="alert">
+        <?= $message; ?>
+    </div>
+    <!-- /Alert message -->
+<?php endif; ?>
+<?php
+/** @var \Quiz\Modules\Question\Entities\Question $question */
+/** @var \Quiz\Modules\Question\Entities\Variant[] $variants */
+?>
+<?php if (null !== $question->id): ?>
+    <!-- Quiz title -->
+
+    <div class="btn-toolbar mb-3 quiz-title" role="toolbar">
+        <strong><?= $question->title; ?></strong>
+        <button class="btn btn-warning btn-sm" disabled><?= $question->status; ?></button>
+    </div>
+    <!-- /Quiz title -->
+    <?php if (2 <= count($variants)): ?>
+        <div class="input-group-btn form-field " id="radioBtn">
+            <form action="" method="POST">
+                <input type="hidden" name="answer" id="fun">
+                <input type="hidden" name="question_id" value="<?=$question->id;?>">
+                <?php foreach ($variants as $variant): ?>
+                    <div class="entry input-group col-xs-3">
+                        <!-- Radio -->
+
+                        <a class="btn btn-warning btn-sm"
+                           onclick="Form.radio(event,this);"
+                           data-toggle="fun"
+                           data-title="<?= $variant->id; ?>">
+                        </a>
+                        <input class="form-control variant-field"
+                               name="variant[]"
+                               value="<?= $variant->title; ?>"
+                               readonly disabled />
+                    </div>
+                <?php endforeach; ?>
+                <div class="top-buffer">
+                    <input type="submit" id="send" class="btn btn-success" disabled value="OK">
+                </div>
+            </form>
+        </div>
+        <div class="top-buffer">
+            Progress : (<?=$done;?>/<?=$total;?>)
+        </div>
+    <?php else: ?>
+        <div class="alert alert-warning" role="alert">
+            You can't continue because the questions are not yet compiled
+        </div>
+    <?php endif; ?>
+<?php else: ?>
+    <div class="alert alert-warning" role="alert">
+        You can't continue because the questions are not exist
+    </div>
+<?php endif; ?>
