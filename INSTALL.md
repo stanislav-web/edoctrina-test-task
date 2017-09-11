@@ -8,6 +8,12 @@ Tests I did not do - I give this wonderful opportunity to you.
 **No frameworks were used.**
   "MVC Application" and "Dependency" were implemented by the native PHP 7
 
+### Requirements
+
+    PHP 7.1
+    NPM (latest)
+    Composer
+    
 ### Installation
 
 Clone app to root directory and run
@@ -25,5 +31,5 @@ Create a database **`quiz`** and in any convenient way upload src from
 
 KISS
 
-Many thanks @nezlayaya for helps with Bootstrap CSS!
-**Summary estimated : 25 hours**
+Many thanks @nezllayaya for helps with Bootstrap CSS!
+**Summary estimated : 25 working hours**
