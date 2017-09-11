@@ -112,7 +112,7 @@ final class Router implements RouterInterface {
             $controller = $this->getApplicationPath().ucfirst($this->requestParams['controller']).'Controller';
 
             if(false === class_exists($controller)) {
-                throw new RouterException('Controller does not found');
+                throw new RouterException('Route does not found');
             }
         } else {
             $controller = $this->getDefaultController();

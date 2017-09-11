@@ -25,6 +25,3 @@ try {
 } catch (\Throwable $e) {
     echo $e;
 }
-catch (\Error $e) {
-    echo $e;
-}

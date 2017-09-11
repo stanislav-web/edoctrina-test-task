@@ -99,8 +99,7 @@ class ScoreDataMapper extends AbstractDataMapper {
             return $rowId;
 
         } catch (\Throwable $e) {
-            var_dump($e);
-            throw new DataManagerException('Score does not added');
+            throw new DataManagerException('Score does not added. Probably you wanna break the system');
         }
     }
 
