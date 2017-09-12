@@ -12,6 +12,11 @@ use Quiz\Modules\Input\Module as InputModule;
 abstract class BaseController {
 
     /**
+     * @const MAIN_LAYOUT
+     */
+    const MAIN_LAYOUT = 'bootstrap';
+
+    /**
      * @var DependencyContainerInterface $di
      */
     protected $di;
@@ -39,9 +44,13 @@ abstract class BaseController {
      * @throws \Quiz\Exceptions\DependencyContainerException
      */
     public function __construct(DependencyContainerInterface $di) {
+
         $this->inputModule = $di->get('Input');
         $this->viewModule = $di->get('View');
         $this->questionModule = $di->get('Question');
+
+        $this->view = $this->viewModule->getRepository();
+        $this->view->setLayout(self::MAIN_LAYOUT);
     }
 
     /**

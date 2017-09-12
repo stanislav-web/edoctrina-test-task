@@ -18,21 +18,7 @@ class PassingController extends BaseController {
     /**
      * @var ViewRepositoryInterface|ViewRepository
      */
-    private $view;
-
-    /**
-     * PassingController constructor.
-     *
-     * @param DependencyContainerInterface $di
-     *
-     * @throws \Quiz\Exceptions\DependencyContainerException
-     */
-    public function __construct(DependencyContainerInterface $di) {
-        parent::__construct($di);
-
-        $this->view = $this->viewModule->getRepository();
-        $this->view->setLayout('bootstrap');
-    }
+    protected $view;
 
     /**
      * Index action
