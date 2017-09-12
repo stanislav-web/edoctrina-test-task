@@ -2,7 +2,6 @@
 namespace Quiz\Application\Controllers;
 
 use Quiz\Application\Aware\BaseController;
-use Quiz\Aware\DependencyContainerInterface;
 use Quiz\Modules\View\Repository as ViewRepository;
 use Quiz\Modules\View\RepositoryInterface as ViewRepositoryInterface;
 
