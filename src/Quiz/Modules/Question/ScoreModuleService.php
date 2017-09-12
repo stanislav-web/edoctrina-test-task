@@ -106,7 +106,6 @@ class ScoreModuleService {
 
             return $collection;
         } catch (DataManagerException $e) {
-            $this->scoreDataMapper->rollbackTransaction();
             throw new QuizException($e);
         }
     }
@@ -127,7 +126,6 @@ class ScoreModuleService {
             return $this->scoreDataMapper->scoreByQuizId($quiz_id);
 
         } catch (DataManagerException $e) {
-            $this->scoreDataMapper->rollbackTransaction();
             throw new QuizException($e);
         }
     }
